@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kostinatyn Masliuk | 1pkg dev blog</title>
+    <link>https://1pkg.github.io/</link>
+    <description>Recent content on Kostinatyn Masliuk | 1pkg dev blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 08 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Let&#39;s trace goroutine allocated memory (hacking go runtime)</title>
+      <link>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</link>
+      <pubDate>Tue, 08 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</guid>
+      <description>Memory tracing retrospective On the dawn of computer era, every allocated piece of memory was properly accounted by a programmer, it was not possible otherwise as memory was limited and precious fundamental resource. Memory is no less fundamental resource nowdays but with its exponential growth per single machine; trend of adding more high level memory management abstractions bloomed. In languages like C it&amp;rsquo;s rather easy to calculate exact amount of memory allocated (you fully control all heap allocation by yourself), on the other hand it&amp;rsquo;s not that simple in languages like Go that are hiding memory management details inside runtime abstractions.</description>
+    </item>
+    
+  </channel>
+</rss>
