@@ -5,14 +5,23 @@
     <link>https://1pkg.github.io/posts/</link>
     <description>Recent content in Posts on Kostinatyn Masliuk | 1pkg dev blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 08 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 02 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Let&#39;s make closed channels more useful (hacking go runtime)</title>
+      <link>https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/</link>
+      <pubDate>Sat, 02 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/</guid>
+      <description>Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of &amp;ldquo;uninitialized variable&amp;rdquo; errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures.</description>
+    </item>
+    
     <item>
       <title>Let&#39;s trace goroutine allocated memory (hacking go runtime)</title>
       <link>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</link>
       <pubDate>Tue, 08 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</guid>
-      <description>Memory tracing retrospective On the dawn of computer era, every allocated piece of memory was properly accounted by a programmer, it was not possible otherwise as memory was limited and precious fundamental resource. Memory is no less fundamental resource nowdays but with its exponential growth per single machine; trend of adding more high level memory management abstractions bloomed. In languages like C it&amp;rsquo;s rather easy to calculate exact amount of memory allocated (you fully control all heap allocation by yourself), on the other hand it&amp;rsquo;s not that simple in languages like Go that are hiding memory management details inside runtime abstractions.</description>
+      <description>Memory tracing retrospective On the dawn of computer era, every allocated piece of memory was properly accounted by a programmer, it was not possible otherwise as memory was limited and precious fundamental resource. Memory is no less fundamental resource nowadays but with its exponential growth per single machine; trend of adding more high level memory management abstractions bloomed. In languages like C it&amp;rsquo;s rather easy to calculate exact amount of memory allocated (you fully control all heap allocation by yourself), on the other hand it&amp;rsquo;s not that simple in languages like Go that are hiding memory management details inside runtime abstractions.</description>
     </item>
     
   </channel>
