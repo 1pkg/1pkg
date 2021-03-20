@@ -5,9 +5,18 @@
     <link>https://1pkg.github.io/</link>
     <description>Recent content on Kostinatyn Masliuk | 1pkg dev blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 02 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Let&#39;s make closed channels more useful (hacking go runtime)</title>
+      <title>Private repository dependency management with gomod</title>
+      <link>https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/</link>
+      <pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/</guid>
+      <description>According to go survey 2020, gomod has finally won long disputes around dependency management in go: &amp;ldquo;Go modules adoption is nearly universal with 77% satisfaction, but respondents also highlight a need for improved docs&amp;rdquo;. This is not surprising at all, as it is indeed a solid tool, but even more importantly, included into default go distribution as the official dependency management tool. With that said, gomod is not ideal (as any other complex tool) sometimes you can stumble upon some controversial decisions or need to know some internal implementation details to use it properly in some less common setups.</description>
+    </item>
+    
+    <item>
+      <title>Let&#39;s make closed channels more useful</title>
       <link>https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/</link>
       <pubDate>Sat, 02 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -16,7 +25,7 @@
     </item>
     
     <item>
-      <title>Let&#39;s trace goroutine allocated memory (hacking go runtime)</title>
+      <title>Let&#39;s trace goroutine allocated memory</title>
       <link>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</link>
       <pubDate>Tue, 08 Dec 2020 00:00:00 +0000</pubDate>
       

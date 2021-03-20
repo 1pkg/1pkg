@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Let&#39;s make closed channels more useful (hacking go runtime) | Kostinatyn Masliuk | 1pkg dev blog</title>
+<title>Let&#39;s make closed channels more useful | Kostinatyn Masliuk | 1pkg dev blog</title>
 
 <meta name="keywords" content="" />
 <meta name="description" content="Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of &ldquo;uninitialized variable&rdquo; errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures.">
@@ -24,22 +24,22 @@
 <meta name="generator" content="Hugo 0.78.2" />
 
 
-<meta property="og:title" content="Let&#39;s make closed channels more useful (hacking go runtime)" />
+<meta property="og:title" content="Let&#39;s make closed channels more useful" />
 <meta property="og:description" content="Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of &ldquo;uninitialized variable&rdquo; errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/" />
 <meta property="article:published_time" content="2021-01-02T00:00:00+00:00" />
 <meta property="article:modified_time" content="2021-01-02T00:00:00+00:00" /><meta property="og:site_name" content="Kostinatyn Masliuk | 1pkg dev blog" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Let&#39;s make closed channels more useful (hacking go runtime)"/>
+<meta name="twitter:title" content="Let&#39;s make closed channels more useful"/>
 <meta name="twitter:description" content="Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of &ldquo;uninitialized variable&rdquo; errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures."/>
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Let's make closed channels more useful (hacking go runtime)",
-  "name": "Let\u0027s make closed channels more useful (hacking go runtime)",
+  "headline": "Let's make closed channels more useful",
+  "name": "Let\u0027s make closed channels more useful",
   "description": "Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day …",
   "keywords": [
     
@@ -131,7 +131,7 @@
 <article class="post-single">
   <header class="post-header">
     <h1 class="post-title">
-      Let&#39;s make closed channels more useful (hacking go runtime)
+      Let&#39;s make closed channels more useful
     </h1>
     <div class="post-meta">
 
@@ -347,9 +347,9 @@ I highly recommend you to read an additional <a href="https://programming.vip/do
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">selectgo</span>(<span style="color:#a6e22e">cas0</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">scase</span>, <span style="color:#a6e22e">order0</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">uint16</span>, <span style="color:#a6e22e">ncases</span> <span style="color:#66d9ef">int</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">bool</span>)
 </code></pre></div><p>Now we need to patch all those methods; patching <code>selectnbrecv</code> and <code>selectnbrecv2</code> is quite an easy task, <code>selectgo</code> is on the other hand is much trickier. The simplest way to pass by - to use patch guard discussed in my <a href="/posts/lets_trace_goroutine_allocated_memory/">previous post</a>. One gotcha though, patch guard is unsafe to use; it&rsquo;s not thread safe - while function code is unpatched back to original <code>selectgo</code> another <code>selectgo</code> call could happen in between, resulting in reading chan type zero value. This race could be quite awful, however I feel that for golatch use case patch guard advantages cleatly outweigh disadvantages and patch guard could be used as simplest solution. In anyway patching is generally a terrible unsafe idea and should NOT be used in any real code by anyone.</p>
 <h2 id="final-conclusion">Final conclusion<a hidden class="anchor" aria-hidden="true" href="#final-conclusion">#</a></h2>
-<p>As with my <a href="/posts/lets_trace_goroutine_allocated_memory/">previous article</a> we can highlight that  any thinkable language design change could be achieved (even change of core go semantic) if you dig deeply enough and agree to use some extreme techniques like <a href="/posts/lets_trace_goroutine_allocated_memory/#unexported-function---golinkname-to-rescue">go linkname</a> and <a href="/posts/lets_trace_goroutine_allocated_memory/#allocation-hooking---code-patching-to-rescue">code patching</a>. On the other hand while doing that, you should be constantly asking yourself - &ldquo;is it really worth doing so in a such wicked way?&rdquo;. And I will argue that in most cases the answer is &ldquo;no&rdquo;.</p>
-<p>As I said previously the greatest merit of go “features and implementations conservatism” should always prevail; don&rsquo;t fight your language instead embrace it. Nevertheless if you know what you are doing  sometimes you can bend the rules and experiment even with the core concepts.</p>
-<p>In my final conclusion I highly discourage anyone to use golatch in any production code or maybe even any code at all as it’s extremely unsafe and not reliable and won’t be supported in foreseeable future. Nevertheless, one could probably imagine reasonable use cases for this concept library in go benchmarks or test. Finally it&rsquo;s worth to say that primary intention to develop golatch was learning  and that golatch doesn&rsquo;t have comprehensive tests coverage and support and not ready for any serious use case anyway.</p>
+<p>As with my <a href="/posts/lets_trace_goroutine_allocated_memory/">previous article</a> we can highlight that any thinkable language design change could be achieved (even change of core go semantic) if you dig deeply enough and agree to use some extreme techniques like <a href="/posts/lets_trace_goroutine_allocated_memory/#unexported-function---golinkname-to-rescue">go linkname</a> and <a href="/posts/lets_trace_goroutine_allocated_memory/#allocation-hooking---code-patching-to-rescue">code patching</a>. On the other hand while doing that, you should be constantly asking yourself - &ldquo;is it really worth doing so in a such wicked way?&rdquo;. And I will argue that in most cases the answer is &ldquo;no&rdquo;.</p>
+<p>As I said previously the greatest merit of go “features and implementations conservatism” should always prevail; don&rsquo;t fight your language instead embrace it. Nevertheless if you know what you are doing sometimes you can bend the rules and experiment even with the core concepts.</p>
+<p>In my final conclusion I highly discourage anyone to use golatch in any production code or maybe even any code at all as it’s extremely unsafe and not reliable and won’t be supported in foreseeable future. Nevertheless, one could probably imagine reasonable use cases for this concept library in go benchmarks or test. Finally it&rsquo;s worth to say that primary intention to develop golatch was learning and that golatch doesn&rsquo;t have comprehensive tests coverage and support and not ready for any serious use case anyway.</p>
 
 </div>
   <footer class="post-footer">
