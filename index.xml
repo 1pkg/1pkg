@@ -5,7 +5,16 @@
     <link>https://1pkg.github.io/</link>
     <description>Recent content on Kostinatyn Masliuk | 1pkg dev blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 20 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Writing complex concurrent table tests</title>
+      <link>https://1pkg.github.io/posts/writing_complex_concurrent_table_tests/</link>
+      <pubDate>Sun, 21 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://1pkg.github.io/posts/writing_complex_concurrent_table_tests/</guid>
+      <description>Recently, I&amp;rsquo;ve finished my reading of &amp;ldquo;Software Engineering at Google&amp;rdquo; book. Despite the fact that this book contains considerable amount of: information duplicity, obvious advices and quite generic explanations. I still can suggest this book to anyone interested in understanding the modern Software Engineering industry. Although be advised that book doesn&amp;rsquo;t go very deep with any given topic. Rather, it&amp;rsquo;s just quite nicely composed collection of easy to read and understand thoughts from Google engineers.</description>
+    </item>
+    
     <item>
       <title>Private repository dependency management with gomod</title>
       <link>https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/</link>
