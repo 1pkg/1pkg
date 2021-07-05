@@ -5,7 +5,16 @@
     <link>https://1pkg.github.io/posts/</link>
     <description>Recent content in Posts on Kostinatyn Masliuk | 1pkg dev blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 16 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A word about benchmarking</title>
+      <link>https://1pkg.github.io/posts/a_word_about_benchmarking/</link>
+      <pubDate>Sat, 05 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://1pkg.github.io/posts/a_word_about_benchmarking/</guid>
+      <description>Some time ago, routinely jumping through blogs of people I consider interesting on github, I found one great blog focused on Rust and its surroundings. Frankly, I don&amp;rsquo;t care about Rust that much right now. Mostly because I don&amp;rsquo;t like the ideas behind the language and one, which is even more important I haven&amp;rsquo;t even tried to write something meaningful using Rust. Neverthelse, it&amp;rsquo;s always benefitial to read different opinions on the topics that you both know well and superficially.</description>
+    </item>
+    
     <item>
       <title>Hedged http requests to reduce tail latency</title>
       <link>https://1pkg.github.io/posts/hedged_http_requests_to_reduce_tail_latency/</link>

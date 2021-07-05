@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>A word about benchmarking | Kostinatyn Masliuk | 1pkg dev blog</title>
+
+<meta name="keywords" content="" />
+<meta name="description" content="Some time ago, routinely jumping through blogs of people I consider interesting on github, I found one great blog focused on Rust and its surroundings. Frankly, I don&rsquo;t care about Rust that much right now. Mostly because I don&rsquo;t like the ideas behind the language and one, which is even more important I haven&rsquo;t even tried to write something meaningful using Rust. Neverthelse, it&rsquo;s always benefitial to read different opinions on the topics that you both know well and superficially.">
+<meta name="author" content="Kostiantyn Masliuk">
+<link rel="canonical" href="https://1pkg.github.io/posts/a_word_about_benchmarking/" />
+<link href="https://1pkg.github.io/assets/css/stylesheet.min.08d6f2005b6ce4ed10207916c0411c66e66f2201e3f7a56e8fb2ccbc4a8b259c.css" integrity="sha256-CNbyAFts5O0QIHkWwEEcZuZvIgHj96Vuj7LMvEqLJZw=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://1pkg.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://1pkg.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://1pkg.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://1pkg.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://1pkg.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.78.2" />
+
+
+<meta property="og:title" content="A word about benchmarking" />
+<meta property="og:description" content="Some time ago, routinely jumping through blogs of people I consider interesting on github, I found one great blog focused on Rust and its surroundings. Frankly, I don&rsquo;t care about Rust that much right now. Mostly because I don&rsquo;t like the ideas behind the language and one, which is even more important I haven&rsquo;t even tried to write something meaningful using Rust. Neverthelse, it&rsquo;s always benefitial to read different opinions on the topics that you both know well and superficially." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://1pkg.github.io/posts/a_word_about_benchmarking/" />
+<meta property="article:published_time" content="2021-06-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-05T00:00:00+00:00" /><meta property="og:site_name" content="Kostinatyn Masliuk | 1pkg dev blog" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A word about benchmarking"/>
+<meta name="twitter:description" content="Some time ago, routinely jumping through blogs of people I consider interesting on github, I found one great blog focused on Rust and its surroundings. Frankly, I don&rsquo;t care about Rust that much right now. Mostly because I don&rsquo;t like the ideas behind the language and one, which is even more important I haven&rsquo;t even tried to write something meaningful using Rust. Neverthelse, it&rsquo;s always benefitial to read different opinions on the topics that you both know well and superficially."/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "A word about benchmarking",
+  "name": "A word about benchmarking",
+  "description": "Some time ago, routinely jumping through blogs of people I consider interesting on github, I found one great blog focused on Rust and its surroundings. Frankly, I don\u0026amp;rsquo;t care …",
+  "keywords": [
+    
+  ],
+  "articleBody": "Some time ago, routinely jumping through blogs of people I consider interesting on github, I found one great blog focused on Rust and its surroundings. Frankly, I don’t care about Rust that much right now. Mostly because I don’t like the ideas behind the language and one, which is even more important I haven’t even tried to write something meaningful using Rust. Neverthelse, it’s always benefitial to read different opinions on the topics that you both know well and superficially.\nSurely this is a programmer blog, and it discusses subjects beyond only Rust ecosystem. One of the subjects that caught my eye was Async Benchmarks Index. It’s a type of live article popular in recent past where author lists a set of benchmarks and validates them against some claim. I don’t undertake to judge the claim the author made in the article. What I’m interested instead, to look more closely at one specific benchmark Async Python is not faster and rebuttal provided for it Ignore All Web Performance Benchmarks, Including This One. I agree with the rebuttal - original async python is not faster benchmark is too subjective. And I have no doubts that provided rebuttal does a good job of debunking it.\nWhat got me thinking the most, though, more fundamental points in the rebuttal post that benchmarks are rigged and shouldn’t be trusted. And while I agree with those statements as they stand true most of the time, I dissagree with the statement that all web performance benchmarks should be ignored. I think, web performance benchmarks have value. They just need to be conducted by you, that is. Yes, I believe, if you run benchmarks tailored to your needs i.e. your specific: data requirements and constraints, hardware, etc. you’ll get the value out of them. Unfortunately, in practice, almost nobody conducts their own benchmarks. The majority choising the technology either from their past expirience or rigged benchmarks from the internet or even worse blindly. Contrary to how real decisions should be made - based on data-driven principle. You always want to evaluate something before starting to put stakes in it. Benchmarking is just a tool that gives you that abillity to meassure performance characteristic of a given system, in our example web frameworks. So in conclusion, I would suggest to ignore most of publicly available benchmarks and trust only the data verified by yourself or trusted thirdparty.\n",
+  "wordCount" : "399",
+  "inLanguage": "en",
+  "datePublished": "2021-06-05T00:00:00Z",
+  "dateModified": "2021-06-05T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Kostiantyn Masliuk"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://1pkg.github.io/posts/a_word_about_benchmarking/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kostinatyn Masliuk | 1pkg dev blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://1pkg.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+</head>
+
+<body class="single" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        .theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://1pkg.github.io" accesskey="h">~</a>
+            <span class="logo-switches">
+                <span class="theme-toggle">
+                    <a id="theme-toggle" accesskey="t">
+                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </a>
+                </span>
+                
+            </span>
+        </div>
+        <ul class="menu" id="menu" onscroll="menu_on_scroll()"></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">
+      A word about benchmarking
+    </h1>
+    <div class="post-meta">
+
+June 5, 2021&nbsp;·&nbsp;Kostiantyn Masliuk
+
+    </div>
+  </header> 
+
+  <div class="post-content">
+<p>Some time ago, routinely jumping through blogs of people I consider interesting on github, I found <a href="https://matklad.github.io/">one</a> great blog focused on Rust and its surroundings. Frankly, I don&rsquo;t care about Rust that much right now. Mostly because I don&rsquo;t like the ideas behind the language and one, which is even more important I haven&rsquo;t even tried to write something meaningful using Rust. Neverthelse, it&rsquo;s always benefitial to read different opinions on the topics that you both know well and superficially.</p>
+<p>Surely this is a programmer blog, and it discusses subjects beyond only Rust ecosystem. One of the subjects that caught my eye was <a href="https://matklad.github.io/2021/03/22/async-benchmarks-index.html">Async Benchmarks Index</a>. It&rsquo;s a type of live article popular in recent past where author lists a set of benchmarks and validates them against some claim. I don&rsquo;t undertake to judge the claim the author made in the article. What I&rsquo;m interested instead, to look more closely at one specific benchmark <a href="https://calpaterson.com/async-python-is-not-faster.html">Async Python is not faster</a> and rebuttal provided for it <a href="https://blog.miguelgrinberg.com/post/ignore-all-web-performance-benchmarks-including-this-one">Ignore All Web Performance Benchmarks, Including This One</a>. I agree with the rebuttal - original async python is not faster benchmark is too subjective. And I have no doubts that provided rebuttal does a good job of debunking it.</p>
+<p>What got me thinking the most, though, more fundamental points in the rebuttal post that benchmarks are rigged and shouldn&rsquo;t be trusted. And while I agree with those statements as they stand true most of the time, I dissagree with the statement that all web performance benchmarks should be ignored. I think, web performance benchmarks have value. They just need to be conducted by you, that is. Yes, I believe, if you run benchmarks tailored to your needs i.e. your specific: data requirements and constraints, hardware, etc. you&rsquo;ll get the value out of them. Unfortunately, in practice, almost nobody conducts their own benchmarks. The majority choising the technology either from their past expirience or rigged benchmarks from the internet or even worse blindly. Contrary to how real decisions should be made - based on data-driven principle. You always want to evaluate something before starting to put stakes in it. Benchmarking is just a tool that gives you that abillity to meassure performance characteristic of a given system, in our example web frameworks. So in conclusion, I would suggest to ignore most of publicly available benchmarks and trust only the data verified by yourself or trusted thirdparty.</p>
+
+</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://1pkg.github.io">Kostinatyn Masliuk | 1pkg dev blog</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top" accesskey="g">
+    <button class="top-link" id="top-link" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6">
+            <path d="M12 6H0l6-6z" /></svg>
+    </button>
+</a>
+
+
+
+<script defer src="https://1pkg.github.io/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+    });
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>
