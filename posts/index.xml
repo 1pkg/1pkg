@@ -5,7 +5,17 @@
     <link>https://1pkg.github.io/posts/</link>
     <description>Recent content in Posts on Kostinatyn Masliuk | 1pkg dev blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 05 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What does algorithm intuition really mean</title>
+      <link>https://1pkg.github.io/posts/what_does_algorithm_intuition_really_mean/</link>
+      <pubDate>Sat, 28 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://1pkg.github.io/posts/what_does_algorithm_intuition_really_mean/</guid>
+      <description>Lately I&amp;rsquo;ve reached to Concepts and Algorithm Intuition episode of CppCast in my podcast listening routine. Which also expanded into watching two subsequent CppCon 2019 talks Algorithm Intuition (part 1 of 2) and Algorithm Intuition (part 2 of 2) given by Conor Hoekstra.
+While the ideas and lines of thinking behind &amp;ldquo;Algorithm Intuition&amp;rdquo; listed there are sane. I still got an odd aftertaste after going through them. In a few words, the author makes a claim that C++ STL takes on algorithms and data structures fields is the right one.</description>
+    </item>
+    
     <item>
       <title>A word about benchmarking</title>
       <link>https://1pkg.github.io/posts/a_word_about_benchmarking/</link>
