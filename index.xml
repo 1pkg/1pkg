@@ -5,7 +5,17 @@
     <link>https://1pkg.github.io/</link>
     <description>Recent content on Kostinatyn Masliuk | 1pkg dev blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 28 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>One more aspect of struct layout in Go</title>
+      <link>https://1pkg.github.io/posts/one_more_aspect_of_struct_layout_in_go/</link>
+      <pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://1pkg.github.io/posts/one_more_aspect_of_struct_layout_in_go/</guid>
+      <description>Some days ago I got a new intriguing issue opened for gopium which is one of my projects, I maintain. In a few words: fieldalign linter in govet complained about unoptimal fields with pointer data ordering produced by gopium memory packing strategy.
+On a surface, the issue looks strange. Why would ordering of fields containing pointers inside structure matter? Many developers know for the fact that structure alignment and field order matters in a number of situations.</description>
+    </item>
+    
     <item>
       <title>What does algorithm intuition really mean</title>
       <link>https://1pkg.github.io/posts/what_does_algorithm_intuition_really_mean/</link>
