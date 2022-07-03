@@ -5,17 +5,7 @@
     <link>https://1pkg.github.io/</link>
     <description>Recent content on 1pkg dev blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 19 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Briefly reflecting on code generation</title>
-      <link>https://1pkg.github.io/posts/briefly_reflecting_on_code_generation/</link>
-      <pubDate>Wed, 19 Jan 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://1pkg.github.io/posts/briefly_reflecting_on_code_generation/</guid>
-      <description>Not so long ago I&amp;rsquo;ve been working on Go CLI meta-tool gofire that actively uses code generation. The tool was designed to automatically generate a command line interface for Go functions and do all required plumbing in between. The tool was inspired by python-fire.
-I consciously chose code generation over any other alternatives because of guarantees of simplicity, predictability and performance. And while I like the results I was able to achieve using it for this project, yet I hit a dozen of common pitfals on my way.</description>
-    </item>
-    
+    <lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>One more aspect of struct layout in Go</title>
       <link>https://1pkg.github.io/posts/one_more_aspect_of_struct_layout_in_go/</link>

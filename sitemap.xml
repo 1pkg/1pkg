@@ -1,78 +1,45 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://1pkg.github.io/</loc>
-    <lastmod>2022-01-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://1pkg.github.io/posts/briefly_reflecting_on_code_generation/</loc>
-    <lastmod>2022-01-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://1pkg.github.io/posts/</loc>
-    <lastmod>2022-01-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-12-24T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://1pkg.github.io/posts/one_more_aspect_of_struct_layout_in_go/</loc>
     <lastmod>2021-12-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://1pkg.github.io/posts/</loc>
+    <lastmod>2021-12-24T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://1pkg.github.io/posts/what_does_algorithm_intuition_really_mean/</loc>
     <lastmod>2021-08-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/a_word_about_benchmarking/</loc>
     <lastmod>2021-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/hedged_http_requests_to_reduce_tail_latency/</loc>
     <lastmod>2021-05-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/golang_dead_end_generics_journey/</loc>
     <lastmod>2021-04-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/implementing_go_ambiguous_operator/</loc>
     <lastmod>2021-04-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/</loc>
     <lastmod>2021-03-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/</loc>
     <lastmod>2021-01-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</loc>
     <lastmod>2020-12-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://1pkg.github.io/tags/</loc>
   </url>
-  
 </urlset>

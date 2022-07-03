@@ -11,8 +11,8 @@
 Hedged requests. A simple way to curb latency variability is to issue the same request to multiple replicas and use the results from whichever replica responds first.">
 <meta name="author" content="Kostiantyn Masliuk">
 <link rel="canonical" href="https://1pkg.github.io/posts/hedged_http_requests_to_reduce_tail_latency/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ef101b82f5d0f216577b2b1b33ac59cbf6ec31115df5bcc763ade95cf25496d5.css" integrity="sha256-7xAbgvXQ8hZXeysbM6xZy/bsMRFd9bzHY63pXPJUltU=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6cba0d81b5f3f42bb578d49f402ba4175aa72b43def148780b8ad714c957c6f5.css" integrity="sha256-bLoNgbXz9Cu1eNSfQCukF1qnK0Pe8Uh4C4rXFMlXxvU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.2840b7fccd34145847db71a290569594bdbdb00047097f75d6495d162f5d7dff.js" integrity="sha256-KEC3/M00FFhH23GikFaVlL29sABHCX911kldFi9dff8="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://1pkg.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://1pkg.github.io/favicon-16x16.png">
@@ -21,7 +21,7 @@ Hedged requests. A simple way to curb latency variability is to issue the same r
 <link rel="mask-icon" href="https://1pkg.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.78.2" />
+<meta name="generator" content="Hugo 0.99.1" />
 <meta property="og:title" content="Hedged http requests to reduce tail latency" />
 <meta property="og:description" content="Recently, I stumbled upon an article from Google engineers that describes ways of reducing tail latency used inside Google. Among obvious methods like: managing background activities and adding priorities queues on various system levels. There were also listed multiple methods, efficiency of which might look less evident at the first glance. Notably, in &ldquo;within request short-term&rdquo; section:
 Hedged requests. A simple way to curb latency variability is to issue the same request to multiple replicas and use the results from whichever replica responds first." />
@@ -183,14 +183,14 @@ Hedged requests. A simple way to curb latency variability is to issue the same r
 </div>
   </header> 
   <div class="post-content"><p>Recently, I stumbled upon <a href="https://cacm.acm.org/magazines/2013/2/160173-the-tail-at-scale/fulltext">an article from Google engineers</a> that describes ways of reducing tail latency used inside Google. Among obvious methods like: managing background activities and adding priorities queues on various system levels. There were also listed multiple methods, efficiency of which might look less evident at the first glance. Notably, in &ldquo;within request short-term&rdquo; section:</p>
-<pre><code>Hedged requests. A simple way to curb latency variability is to issue the same request
+<pre tabindex="0"><code>Hedged requests. A simple way to curb latency variability is to issue the same request
 to multiple replicas and use the results from whichever replica responds first. ...
 The client cancels remaining outstanding requests once the first result is received.
 Although naive implementations of this technique typically add unacceptable additional load,
 many variations exist that give most of the latency-reduction effects while increasing load only modestly. ...
 </code></pre><p><em>and</em></p>
-<pre><code>Tied requests. ... The simplest form of a tied request has the client send the request to two different servers,
-each tagged with the identity of the other server (&quot;tied&quot;). When a request begins execution, it sends a
+<pre tabindex="0"><code>Tied requests. ... The simplest form of a tied request has the client send the request to two different servers,
+each tagged with the identity of the other server (&#34;tied&#34;). When a request begins execution, it sends a
 cancellation message to its counterpart. The corresponding request, if still enqueued in the other server,
 can be aborted immediately or deprioritized substantially. ...
 </code></pre><p>But examples for BigTable provided further in that article, make it clear that both hedged and tied requests are really efficient in reducing tail latency at scale. While tied requests technique demands cooperation between both client and server sides and isn&rsquo;t so trivial to implement in many situations. Hedged requests on another hand is the technique that purely resides in the client-caller code and can be rather easily implemented to be useful for any generic http request. In result, I spent some time creating my own generic <a href="https://github.com/1pkg/hedgehog">hedgehog library</a> for http hedged transport in go. It provides http hedged transport wrapper for go std http client and multiple resource types to flexibly configure hedged behavior. There are 3 types of resources provided by <a href="https://github.com/1pkg/hedgehog">hedgehog</a>:</p>
@@ -200,11 +200,10 @@ can be aborted immediately or deprioritized substantially. ...
 <li><em>percentiles</em> that dynamically adjusts wait delay based on received successful responses delays percentiles before starting hedged request(s).</li>
 </ul>
 <p>Main idea behind those dynamically adjusted resources - to better accommodate balance between reducing tail latency and growing related server load, quoting the article on this:</p>
-<pre><code>
+<pre tabindex="0"><code>
 One such approach is to defer sending a secondary request until the first request
 has been outstanding for more than the 95th-percentile expected latency for this class of requests.
 This approach limits the additional load to approximately 5% while substantially shortening the latency tail.
-
 </code></pre><p>Instead of a conclusion, I strongly suggest to read full <a href="https://cacm.acm.org/magazines/2013/2/160173-the-tail-at-scale/fulltext">Google&rsquo;s paper</a> as it also shows other e.g. &ldquo;cross-request long-term adaptations&rdquo; techniques not covered here. Fun fact: this paper from Google is dated &ldquo;February 2013&rdquo;. It&rsquo;s remarkable that Google cared about tail latency for many years, unfortunately not every company is Google, and even now in 2021 not so many other companies care about such important metric in their products.</p>
 
 

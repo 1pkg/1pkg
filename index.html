@@ -10,7 +10,7 @@
 <meta name="description" content="1pkg dev blog">
 <meta name="author" content="Kostinatyn Masliuk">
 <link rel="canonical" href="https://1pkg.github.io/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ef101b82f5d0f216577b2b1b33ac59cbf6ec31115df5bcc763ade95cf25496d5.css" integrity="sha256-7xAbgvXQ8hZXeysbM6xZy/bsMRFd9bzHY63pXPJUltU=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6cba0d81b5f3f42bb578d49f402ba4175aa72b43def148780b8ad714c957c6f5.css" integrity="sha256-bLoNgbXz9Cu1eNSfQCukF1qnK0Pe8Uh4C4rXFMlXxvU=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://1pkg.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://1pkg.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://1pkg.github.io/favicon-32x32.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://1pkg.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.78.2" />
+<meta name="generator" content="Hugo 0.99.1" />
 <link rel="alternate" type="application/rss+xml" href="https://1pkg.github.io/index.xml">
 <meta property="og:title" content="1pkg dev blog" />
 <meta property="og:description" content="1pkg dev blog" />
@@ -164,18 +164,6 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Briefly reflecting on code generation</h2>
-  </header>
-  <section class="entry-content">
-    <p>Not so long ago I’ve been working on Go CLI meta-tool gofire that actively uses code generation. The tool was designed to automatically generate a command line interface for Go functions and do all required plumbing in between. The tool was inspired by python-fire.
-I consciously chose code generation over any other alternatives because of guarantees of simplicity, predictability and performance. And while I like the results I was able to achieve using it for this project, yet I hit a dozen of common pitfals on my way....</p>
-  </section>
-  <footer class="entry-footer">January 19, 2022&nbsp;·&nbsp;Kostiantyn Masliuk</footer>
-  <a class="entry-link" aria-label="post link to Briefly reflecting on code generation" href="https://1pkg.github.io/posts/briefly_reflecting_on_code_generation/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2>One more aspect of struct layout in Go</h2>
   </header>
   <section class="entry-content">
@@ -277,11 +265,17 @@ Ambiguous functions: Functions whose value are incompletely specified. May be us
   <footer class="entry-footer">January 2, 2021&nbsp;·&nbsp;Kostiantyn Masliuk</footer>
   <a class="entry-link" aria-label="post link to Let&#39;s make closed channels more useful" href="https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/"></a>
 </article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="https://1pkg.github.io/page/2/">Next Page »</a>
-  </nav>
-</footer>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Let&#39;s trace goroutine allocated memory</h2>
+  </header>
+  <section class="entry-content">
+    <p>Memory tracing retrospective On the dawn of computer era, every allocated piece of memory was properly accounted by a programmer, it was not possible otherwise as memory was limited and precious fundamental resource. Memory is no less fundamental resource nowadays but with its exponential growth per single machine; trend of adding more high level memory management abstractions bloomed. In languages like C it’s rather easy to calculate exact amount of memory allocated (you fully control all heap allocation by yourself), on the other hand it’s not that simple in languages like Go that are hiding memory management details inside runtime abstractions....</p>
+  </section>
+  <footer class="entry-footer">December 8, 2020&nbsp;·&nbsp;Kostiantyn Masliuk</footer>
+  <a class="entry-link" aria-label="post link to Let&#39;s trace goroutine allocated memory" href="https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/"></a>
+</article>
     </main>
     <footer class="footer">
     <span>&copy; 2022 <a href="https://1pkg.github.io">1pkg dev blog</a></span>
