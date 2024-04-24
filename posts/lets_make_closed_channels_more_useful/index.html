@@ -6,13 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Let&#39;s make closed channels more useful | 1pkg dev blog</title>
-<meta name="keywords" content="" />
+<meta name="keywords" content="">
 <meta name="description" content="Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of &ldquo;uninitialized variable&rdquo; errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures.">
 <meta name="author" content="Kostiantyn Masliuk">
-<link rel="canonical" href="https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6cba0d81b5f3f42bb578d49f402ba4175aa72b43def148780b8ad714c957c6f5.css" integrity="sha256-bLoNgbXz9Cu1eNSfQCukF1qnK0Pe8Uh4C4rXFMlXxvU=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.2840b7fccd34145847db71a290569594bdbdb00047097f75d6495d162f5d7dff.js" integrity="sha256-KEC3/M00FFhH23GikFaVlL29sABHCX911kldFi9dff8="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://1pkg.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://1pkg.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://1pkg.github.io/favicon-32x32.png">
@@ -20,13 +18,52 @@
 <link rel="mask-icon" href="https://1pkg.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.99.1" />
+<link rel="alternate" hreflang="en" href="https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
 <meta property="og:title" content="Let&#39;s make closed channels more useful" />
 <meta property="og:description" content="Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of &ldquo;uninitialized variable&rdquo; errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-01-02T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-01-02T00:00:00&#43;00:00" /><meta property="og:site_name" content="1pkg dev blog" />
+<meta property="article:published_time" content="2021-01-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-02T00:00:00+00:00" /><meta property="og:site_name" content="1pkg dev blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Let&#39;s make closed channels more useful"/>
@@ -37,16 +74,16 @@
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Posts",
       "item": "https://1pkg.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
-      "position":  3 ,
+      "position":  2 ,
       "name": "Let's make closed channels more useful",
       "item": "https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/"
     }
@@ -63,7 +100,7 @@
   "keywords": [
     
   ],
-  "articleBody": "Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of “uninitialized variable” errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures. If you don’t know, there are some unsafe builtin zero nil value structures in go; namely most problematic ones are maps. But channels and slices could benefit from safe zero values as well. I’m not alone in my thoughts here, see one of such proposals of adding safer zero values to all builtin types. It’s pity that this was not foreseen originally, but I think now these changes can’t be introduced to runtime directly as they will break enormous amount of existing gocode and on top of that make existing code less efficient.\nRecently while I was working on gotcha - library for tracing allocated memory per goroutine, see my previous post. I figured that same “patching” technique could be also applied to a wide range of runtime modifications, e.g. we could try to change maps zero nil value to safer alternative or go even further and change some core operations semantic.\nChannels close semantic Channels are the single most important concurrent primitives in go. They are directly or indirectly used in a wide variety of tasks for any imaginable async communication between goroutines. They are first class citizen structures in go and go provides a special set of operations for them, like separate: send - and recv  operators, powerful select statement, builtin buffering, etc. Channels are great, but as everything inside go, they follow “simple by default” convection which strictly demands “the single way” of doing anything. It’s great rule usually, but sometimes it might be a bit inconvenient - for example when any given channel is closed, in receivers after receiving all buffered values from the channel all further “closed” values received from this channel will be empty zero values!\npackage main  import \"fmt\"  func main() {  ch := make(chan int, 2)  ch  100  close(ch)  v, ok :=  ch  fmt.Println(v, ok) // 100, true  v, ok =  ch  fmt.Println(v, ok) // 0, false  v, ok =  ch  fmt.Println(v, ok) // 0, false  v, ok =  ch  fmt.Println(v, ok) // 0, false } Using default type zero value as “closed” channel value, again, is perfectly logical and valid approach and in most real world scenarios it works great. But sometimes an extra flexibility could simplify channel interactions. One of essential communication patterns - “fanout” often is implemented via channel close call in go. This way it’s easy to make a “fanout” signal for receivers but what is not that simple to deliver a message along with that signal, yet it’s simple enough to achieve the same effect with storing synchronized messages separately, although not that convenient. In my eyes, it might be an interesting idea to have a separate version of close called close2 in go with semantic close to this.\npackage main  import \"fmt\"  func main() {  ch := make(chan int, 2)  ch  100  close2(ch, 200)  v, ok :=  ch  fmt.Println(v, ok) // 100, true  v, ok =  ch  fmt.Println(v, ok) // 200, false  v, ok =  ch  fmt.Println(v, ok) // 200, false  v, ok =  ch  fmt.Println(v, ok) // 200, false } I also understand that adding such specific tool inside go standard library is overkill and will lead only to unnecessary confusions, so separate library probably is an ideal place for such function.\nIntroduction of golatch library Meet golatch that seamlessly patches go runtime to provide a way to close a chan idempotently + overwrite empty value returned from that closed channel.\n  With Golatch  Without Golatch    package main  import ( \t\"fmt\"  \"sync\"  \t\"github.com/1pkg/golatch\" )  func main() { \tch := make(chan int) \tvar wg sync.WaitGroup \twg.Add(5) \tfor i := 0; i 5; i++ { \tgo worker(i, ch, \u0026wg) \t} \tgolatch.Close(ch, 10) \twg.Wait() }  func worker(i int, ch chan int, wg *sync.WaitGroup) { \tv, ok :=  ch // 10, false \tif ok || v != 10 { \tpanic(\"unreachable\") // won't panic \t} \tfmt.Printf(\"worker %d chan is closed with value %d\\n\", i, v) \twg.Done() }    package main  import ( \t\"fmt\" \t\"sync\" )  func main() { \tch := make(chan int) \tvar wg sync.WaitGroup \twg.Add(5) \tfor i := 0; i 5; i++ { \tgo worker(i, ch, \u0026wg) \t} \tclose(ch) \twg.Wait() }  func worker(i int, ch chan int, wg *sync.WaitGroup) { \tv, ok :=  ch // 0, false \tif ok || v != 10 { \tpanic(\"unreachable\") // will panic \t} \tfmt.Printf(\"worker %d chan is closed with value %d\\n\", i, v) \twg.Done() }    Golatch exposes single function Close that idempotently closes any provided channel and stores “closed” value for any further reading from that channel. When “closed” channel read occures default chan type zero value will be overwritten by previously stored “closed” value. Note that next calls to Close on the same channel will overwrite stored value with provided new value. Note also that Close returns Cancel eviction function that should be called in order to remove stored value and restore default receive behavior on the channel.\nHow does golatch even work? In order to understand what we need to do, we need to understand how go runtime handles channel receive and close in the first place. After some reading inside go runtime we can find next definitions.\n// entry points for //go:nosplit func chanrecv1(c *hchan, elem unsafe.Pointer) { \tchanrecv(c, elem, true) } //go:nosplit func chanrecv2(c *hchan, elem unsafe.Pointer) (received bool) { \t_, received = chanrecv(c, elem, true) \treturn }  //go:linkname reflect_chanrecv reflect.chanrecv func reflect_chanrecv(c *hchan, nb bool, elem unsafe.Pointer) (selected bool, received bool) { \treturn chanrecv(c, elem, !nb) } Those are chan receive entrypoint operations that we were searching for. Now the work is trivial - we just need to reflink and patch them, see my previous article for more info how this could be done. The basic idea of patched method is: reuse runtime helper chanrecv first, then check whether channel is closed or not, if channel is closed check whether any previous value for this channel was stored, if value is found in storage - overwrite default chan receive value and return this value instead. Luckily all those receive entrypoint functions are simply using chanrecv helper underneath so no extra patching effort unlike in gotcha is required.\ngomonkey.Patch(chanrecv1, (ch *hchan, elem unsafe.Pointer) {  chanrecv(ch, elem, true)  // apply any action only if chan is closed  if ch.closed {  // if the store has relevant \"close\" value  if store.has(ch) {  // get such value from the store  v := store.get(ch)  // and set it to default return value  set(elem, v)  }  } }) As a mindful reader can notice we made just a half of job by patching chanrecv entrypoint methods. Indeed all receiving methods are done and any  expression will work as expected and return proper results, but what about select statement? After reading more code inside go runtime we can find next definitions for simple select cases.\n// compiler implements // //\tselect { //\tcase v = //\t... foo //\tdefault: //\t... bar //\t} // // as // //\tif selectnbrecv(\u0026v, c) { //\t... foo //\t} else { //\t... bar //\t} // func selectnbrecv(elem unsafe.Pointer, c *hchan) (selected bool) { \tselected, _ = chanrecv(c, elem, false) \treturn }  // compiler implements // //\tselect { //\tcase v, ok = //\t... foo //\tdefault: //\t... bar //\t} // // as // //\tif c != nil \u0026\u0026 selectnbrecv2(\u0026v, \u0026ok, c) { //\t... foo //\t} else { //\t... bar //\t} // func selectnbrecv2(elem unsafe.Pointer, received *bool, c *hchan) (selected bool) { \t// TODO(khr): just return 2 values from this function, now that it is in Go. \tselected, *received = chanrecv(c, elem, false) \treturn } And generic select entrypoint method as the cherry 🍒 on a pie 🥧. I highly recommend you to read an additional excellent article on how channel operations work if you wanna understand select statement in depth.\n// selectgo implements the select statement. // // cas0 points to an array of type [ncases]scase, and order0 points to // an array of type [2*ncases]uint16 where ncases must be // Both reside on the goroutine's stack (regardless of any escaping in // selectgo). // // selectgo returns the index of the chosen scase, which matches the // ordinal position of its respective select{recv,send,default} call. // Also, if the chosen scase was a receive operation, it reports whether // a value was received. func selectgo(cas0 *scase, order0 *uint16, ncases int) (int, bool) Now we need to patch all those methods; patching selectnbrecv and selectnbrecv2 is quite an easy task, selectgo is on the other hand is much trickier. The simplest way to pass by - to use patch guard discussed in my previous post. One gotcha though, patch guard is unsafe to use; it’s not thread safe - while function code is unpatched back to original selectgo another selectgo call could happen in between, resulting in reading chan type zero value. This race could be quite awful, however I feel that for golatch use case patch guard advantages cleatly outweigh disadvantages and patch guard could be used as simplest solution. In anyway patching is generally a terrible unsafe idea and should NOT be used in any real code by anyone.\nFinal conclusion As with my previous article we can highlight that any thinkable language design change could be achieved (even change of core go semantic) if you dig deeply enough and agree to use some extreme techniques like go linkname and code patching. On the other hand while doing that, you should be constantly asking yourself - “is it really worth doing so in a such wicked way?”. And I will argue that in most cases the answer is “no”.\nAs I said previously the greatest merit of go “features and implementations conservatism” should always prevail; don’t fight your language instead embrace it. Nevertheless if you know what you are doing sometimes you can bend the rules and experiment even with the core concepts.\nIn my final conclusion I highly discourage anyone to use golatch in any production code or maybe even any code at all as it’s extremely unsafe and not reliable and won’t be supported in foreseeable future. Nevertheless, one could probably imagine reasonable use cases for this concept library in go benchmarks or test. Finally it’s worth to say that primary intention to develop golatch was learning and that golatch doesn’t have comprehensive tests coverage and support and not ready for any serious use case anyway.\n",
+  "articleBody": "Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of “uninitialized variable” errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures. If you don’t know, there are some unsafe builtin zero nil value structures in go; namely most problematic ones are maps. But channels and slices could benefit from safe zero values as well. I’m not alone in my thoughts here, see one of such proposals of adding safer zero values to all builtin types. It’s pity that this was not foreseen originally, but I think now these changes can’t be introduced to runtime directly as they will break enormous amount of existing gocode and on top of that make existing code less efficient.\nRecently while I was working on gotcha - library for tracing allocated memory per goroutine, see my previous post. I figured that same “patching” technique could be also applied to a wide range of runtime modifications, e.g. we could try to change maps zero nil value to safer alternative or go even further and change some core operations semantic.\nChannels close semantic Channels are the single most important concurrent primitives in go. They are directly or indirectly used in a wide variety of tasks for any imaginable async communication between goroutines. They are first class citizen structures in go and go provides a special set of operations for them, like separate: send -\u003e and recv \u003c- operators, powerful select statement, builtin buffering, etc. Channels are great, but as everything inside go, they follow “simple by default” convection which strictly demands “the single way” of doing anything. It’s great rule usually, but sometimes it might be a bit inconvenient - for example when any given channel is closed, in receivers after receiving all buffered values from the channel all further “closed” values received from this channel will be empty zero values!\npackage main import \"fmt\" func main() { ch := make(chan int, 2) ch \u003c- 100 close(ch) v, ok := \u003c- ch fmt.Println(v, ok) // 100, true v, ok = \u003c- ch fmt.Println(v, ok) // 0, false v, ok = \u003c- ch fmt.Println(v, ok) // 0, false v, ok = \u003c- ch fmt.Println(v, ok) // 0, false } Using default type zero value as “closed” channel value, again, is perfectly logical and valid approach and in most real world scenarios it works great. But sometimes an extra flexibility could simplify channel interactions. One of essential communication patterns - “fanout” often is implemented via channel close call in go. This way it’s easy to make a “fanout” signal for receivers but what is not that simple to deliver a message along with that signal, yet it’s simple enough to achieve the same effect with storing synchronized messages separately, although not that convenient. In my eyes, it might be an interesting idea to have a separate version of close called close2 in go with semantic close to this.\npackage main import \"fmt\" func main() { ch := make(chan int, 2) ch \u003c- 100 close2(ch, 200) v, ok := \u003c- ch fmt.Println(v, ok) // 100, true v, ok = \u003c- ch fmt.Println(v, ok) // 200, false v, ok = \u003c- ch fmt.Println(v, ok) // 200, false v, ok = \u003c- ch fmt.Println(v, ok) // 200, false } I also understand that adding such specific tool inside go standard library is overkill and will lead only to unnecessary confusions, so separate library probably is an ideal place for such function.\nIntroduction of golatch library Meet golatch that seamlessly patches go runtime to provide a way to close a chan idempotently + overwrite empty value returned from that closed channel.\nWith Golatch Without Golatch package main import ( \"fmt\" \"sync\" \"github.com/1pkg/golatch\" ) func main() { ch := make(chan int) var wg sync.WaitGroup wg.Add(5) for i := 0; i \u003c 5; i++ { go worker(i, ch, \u0026wg) } golatch.Close(ch, 10) wg.Wait() } func worker(i int, ch chan int, wg *sync.WaitGroup) { v, ok := \u003c- ch // 10, false if ok || v != 10 { panic(\"unreachable\") // won't panic } fmt.Printf(\"worker %d chan is closed with value %d\\n\", i, v) wg.Done() } package main import ( \"fmt\" \"sync\" ) func main() { ch := make(chan int) var wg sync.WaitGroup wg.Add(5) for i := 0; i \u003c 5; i++ { go worker(i, ch, \u0026wg) } close(ch) wg.Wait() } func worker(i int, ch chan int, wg *sync.WaitGroup) { v, ok := \u003c- ch // 0, false if ok || v != 10 { panic(\"unreachable\") // will panic } fmt.Printf(\"worker %d chan is closed with value %d\\n\", i, v) wg.Done() } Golatch exposes single function Close that idempotently closes any provided channel and stores “closed” value for any further reading from that channel. When “closed” channel read occures default chan type zero value will be overwritten by previously stored “closed” value. Note that next calls to Close on the same channel will overwrite stored value with provided new value. Note also that Close returns Cancel eviction function that should be called in order to remove stored value and restore default receive behavior on the channel.\nHow does golatch even work? In order to understand what we need to do, we need to understand how go runtime handles channel receive and close in the first place. After some reading inside go runtime we can find next definitions.\n// entry points for \u003c- c from compiled code //go:nosplit func chanrecv1(c *hchan, elem unsafe.Pointer) { chanrecv(c, elem, true) } //go:nosplit func chanrecv2(c *hchan, elem unsafe.Pointer) (received bool) { _, received = chanrecv(c, elem, true) return } //go:linkname reflect_chanrecv reflect.chanrecv func reflect_chanrecv(c *hchan, nb bool, elem unsafe.Pointer) (selected bool, received bool) { return chanrecv(c, elem, !nb) } Those are chan receive entrypoint operations that we were searching for. Now the work is trivial - we just need to reflink and patch them, see my previous article for more info how this could be done. The basic idea of patched method is: reuse runtime helper chanrecv first, then check whether channel is closed or not, if channel is closed check whether any previous value for this channel was stored, if value is found in storage - overwrite default chan receive value and return this value instead. Luckily all those receive entrypoint functions are simply using chanrecv helper underneath so no extra patching effort unlike in gotcha is required.\ngomonkey.Patch(chanrecv1, (ch *hchan, elem unsafe.Pointer) { chanrecv(ch, elem, true) // apply any action only if chan is closed if ch.closed { // if the store has relevant \"close\" value if store.has(ch) { // get such value from the store v := store.get(ch) // and set it to default return value set(elem, v) } } }) As a mindful reader can notice we made just a half of job by patching chanrecv entrypoint methods. Indeed all receiving methods are done and any \u003c- expression will work as expected and return proper results, but what about select statement? After reading more code inside go runtime we can find next definitions for simple select cases.\n// compiler implements // //\tselect { //\tcase v = \u003c-c: //\t... foo //\tdefault: //\t... bar //\t} // // as // //\tif selectnbrecv(\u0026v, c) { //\t... foo //\t} else { //\t... bar //\t} // func selectnbrecv(elem unsafe.Pointer, c *hchan) (selected bool) { selected, _ = chanrecv(c, elem, false) return } // compiler implements // //\tselect { //\tcase v, ok = \u003c-c: //\t... foo //\tdefault: //\t... bar //\t} // // as // //\tif c != nil \u0026\u0026 selectnbrecv2(\u0026v, \u0026ok, c) { //\t... foo //\t} else { //\t... bar //\t} // func selectnbrecv2(elem unsafe.Pointer, received *bool, c *hchan) (selected bool) { // TODO(khr): just return 2 values from this function, now that it is in Go. selected, *received = chanrecv(c, elem, false) return } And generic select entrypoint method as the cherry 🍒 on a pie 🥧. I highly recommend you to read an additional excellent article on how channel operations work if you wanna understand select statement in depth.\n// selectgo implements the select statement. // // cas0 points to an array of type [ncases]scase, and order0 points to // an array of type [2*ncases]uint16 where ncases must be \u003c= 65536. // Both reside on the goroutine's stack (regardless of any escaping in // selectgo). // // selectgo returns the index of the chosen scase, which matches the // ordinal position of its respective select{recv,send,default} call. // Also, if the chosen scase was a receive operation, it reports whether // a value was received. func selectgo(cas0 *scase, order0 *uint16, ncases int) (int, bool) Now we need to patch all those methods; patching selectnbrecv and selectnbrecv2 is quite an easy task, selectgo is on the other hand is much trickier. The simplest way to pass by - to use patch guard discussed in my previous post. One gotcha though, patch guard is unsafe to use; it’s not thread safe - while function code is unpatched back to original selectgo another selectgo call could happen in between, resulting in reading chan type zero value. This race could be quite awful, however I feel that for golatch use case patch guard advantages cleatly outweigh disadvantages and patch guard could be used as simplest solution. In anyway patching is generally a terrible unsafe idea and should NOT be used in any real code by anyone.\nFinal conclusion As with my previous article we can highlight that any thinkable language design change could be achieved (even change of core go semantic) if you dig deeply enough and agree to use some extreme techniques like go linkname and code patching. On the other hand while doing that, you should be constantly asking yourself - “is it really worth doing so in a such wicked way?”. And I will argue that in most cases the answer is “no”.\nAs I said previously the greatest merit of go “features and implementations conservatism” should always prevail; don’t fight your language instead embrace it. Nevertheless if you know what you are doing sometimes you can bend the rules and experiment even with the core concepts.\nIn my final conclusion I highly discourage anyone to use golatch in any production code or maybe even any code at all as it’s extremely unsafe and not reliable and won’t be supported in foreseeable future. Nevertheless, one could probably imagine reasonable use cases for this concept library in go benchmarks or test. Finally it’s worth to say that primary intention to develop golatch was learning and that golatch doesn’t have comprehensive tests coverage and support and not ready for any serious use case anyway.\n",
   "wordCount" : "1822",
   "inLanguage": "en",
   "datePublished": "2021-01-02T00:00:00Z",
@@ -99,56 +136,19 @@
     }
 
 </script>
-<noscript>
-    <style type="text/css">
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: #1d1e20;
-                --entry: #2e2e33;
-                --primary: rgba(255, 255, 255, 0.84);
-                --secondary: rgba(255, 255, 255, 0.56);
-                --tertiary: rgba(255, 255, 255, 0.16);
-                --content: rgba(255, 255, 255, 0.74);
-                --hljs-bg: #2e2e33;
-                --code-bg: #37383e;
-                --border: #333;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://1pkg.github.io" accesskey="h" title="~ (Alt + H)">~</a>
-            <span class="logo-switches">
+            <a href="https://1pkg.github.io/" accesskey="h" title="~ (Alt + H)">~</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -162,7 +162,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
         </ul>
@@ -173,10 +173,11 @@
 <article class="post-single">
   <header class="post-header">
     
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Let&#39;s make closed channels more useful
     </h1>
-    <div class="post-meta">January 2, 2021&nbsp;·&nbsp;Kostiantyn Masliuk
+    <div class="post-meta"><span title='2021-01-02 00:00:00 +0000 UTC'>January 2, 2021</span>&nbsp;·&nbsp;Kostiantyn Masliuk
+
 </div>
   </header> 
   <div class="post-content"><h2 id="go-zero-values">Go zero values<a hidden class="anchor" aria-hidden="true" href="#go-zero-values">#</a></h2>
@@ -389,31 +390,36 @@ I highly recommend you to read an additional <a href="https://programming.vip/do
 
 
   </div>
+
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
-    <footer class="footer">
-    <span>&copy; 2022 <a href="https://1pkg.github.io">1pkg dev blog</a></span>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://1pkg.github.io/">1pkg dev blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
-    <button class="top-link" id="top-link" type="button" accesskey="g">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-            <path d="M12 6H0l6-6z" />
-        </svg>
-    </button>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
 </a>
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

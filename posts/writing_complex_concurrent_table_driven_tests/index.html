@@ -6,13 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Writing complex concurrent table driven tests | 1pkg dev blog</title>
-<meta name="keywords" content="" />
+<meta name="keywords" content="">
 <meta name="description" content="Recently, I&rsquo;ve finished my reading of &ldquo;Software Engineering at Google&rdquo; book. Despite the fact that this book contains considerable amount of: information duplicity, obvious advices and quite generic explanations. I still can suggest this book to anyone interested in understanding the modern Software Engineering industry. Although be advised that book doesn&rsquo;t go very deep with any given topic. Rather, it&rsquo;s just quite nicely composed collection of easy to read and understand thoughts from Google engineers.">
 <meta name="author" content="Kostiantyn Masliuk">
-<link rel="canonical" href="https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6cba0d81b5f3f42bb578d49f402ba4175aa72b43def148780b8ad714c957c6f5.css" integrity="sha256-bLoNgbXz9Cu1eNSfQCukF1qnK0Pe8Uh4C4rXFMlXxvU=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.2840b7fccd34145847db71a290569594bdbdb00047097f75d6495d162f5d7dff.js" integrity="sha256-KEC3/M00FFhH23GikFaVlL29sABHCX911kldFi9dff8="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://1pkg.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://1pkg.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://1pkg.github.io/favicon-32x32.png">
@@ -20,13 +18,52 @@
 <link rel="mask-icon" href="https://1pkg.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.99.1" />
+<link rel="alternate" hreflang="en" href="https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
 <meta property="og:title" content="Writing complex concurrent table driven tests" />
 <meta property="og:description" content="Recently, I&rsquo;ve finished my reading of &ldquo;Software Engineering at Google&rdquo; book. Despite the fact that this book contains considerable amount of: information duplicity, obvious advices and quite generic explanations. I still can suggest this book to anyone interested in understanding the modern Software Engineering industry. Although be advised that book doesn&rsquo;t go very deep with any given topic. Rather, it&rsquo;s just quite nicely composed collection of easy to read and understand thoughts from Google engineers." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-03-21T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-03-21T00:00:00&#43;00:00" /><meta property="og:site_name" content="1pkg dev blog" />
+<meta property="article:published_time" content="2021-03-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-21T00:00:00+00:00" /><meta property="og:site_name" content="1pkg dev blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Writing complex concurrent table driven tests"/>
@@ -37,16 +74,16 @@
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Posts",
       "item": "https://1pkg.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
-      "position":  3 ,
+      "position":  2 ,
       "name": "Writing complex concurrent table driven tests",
       "item": "https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/"
     }
@@ -63,7 +100,7 @@
   "keywords": [
     
   ],
-  "articleBody": "Recently, I’ve finished my reading of “Software Engineering at Google” book. Despite the fact that this book contains considerable amount of: information duplicity, obvious advices and quite generic explanations. I still can suggest this book to anyone interested in understanding the modern Software Engineering industry. Although be advised that book doesn’t go very deep with any given topic. Rather, it’s just quite nicely composed collection of easy to read and understand thoughts from Google engineers.\nOne subject highlighted in this book got me thinking more than others - testing. The book spends quite some time on it, having sections: “Testing Overview”, “Unit Testing”, “Test Doubles”, “Larger Testing”, etc. And while most of the points given by the authors here are 100% undeniable:\n “follow proper ratio between unit/integration/e2e tests 80/15/5 (also known as test pyramid)”; “test everything that is important for your application, i.e. anything that brings you the value directly or indirectly (so-called Beyoncé rule)”; “do not over use mocks, prefer to use real implementation instead (test behavior not methods)”; “try to avoid having brittle tests as much as you can (in the long run they might appear to be a big problem)”; “aim for simplest possible test, try to not use any logic inside your tests”; and so much more other useful and practical advices;  It’s definitely worth to say that all of these advices are not ultimate truth and specific needs of specific systems could outweigh them easily.\nNot so long ago, I was adding quite complex test suites for one of my open source projects throttler library gohalt. Originally, I underestimated this task, thinking: “how hard it would be to add some decent test coverage to project that is already well prepared to be tested (it has one core throttler interface and 30+ throttlers implementations) … it should be super easy to use test table here, right?”. I was horribly wrong 🤪. For the beginning, we need to understand that logically all throttlers are used in concurrent muli-threading environments (otherwise, why would you use throttlers in the first place). Therefore, tests for thottlers require to have heavy concurrent testing workload; otherwise they provide test scenarios far from reallity and generally have value close to zero. But one does not simply - to have one test table to rule all throttlers that act differently and need radically different setup for concurrent workload.\nWhat does “Software Engineering at Google” book suggest to do in such case scenario? I believe majority of readers will answer the rule still stands “do not add any complex logic inside you test”. But then we have only single choice here: ditch out nice table driven testing approach and use separate test case scenario for each trottler with separate setup helper for each test case respectively. Although this approach is sound on paper, for gohalt it has single fatal flow - the amount of testing boilerplates will be outstading. It’s hard to say with certainty how much testing code will be needed. But my expectations are that amout of testing code will be at least double amount of actual project code itself 😮 maybe even more. While it might be acceptable and even preferable to someone to have huge, verbose but very explicit test suite, I decided to cheat a bit and go smart on this instead. I went with using table driven testing approach with separate “overcomplicated” test case setup structure for any given test case full gohalt test code.\nLet’s look on resulting code briefly.\nvar trun Runner = NewRunnerSync(context.Background(), NewThrottlerBuffered(1))  type tcase struct { \ttms uint64 // number of sub runs inside one case \tthr Throttler // throttler itself \tacts []Runnable // actions that need to be throttled \tpres []Runnable // actions that neeed to be run before throttle \ttss []time.Duration // timestamps that needs to be applied to contexts set \tctxs []context.Context // contexts set for throttling \terrs []error // expected throttler errors \tdurs []time.Duration // expected throttler durations \tidx uint64 // carries seq number of sub run execution \tover bool // if throttler needs to be over released \tpass bool // if throttler doesn't need to be released \twait time.Duration // if next throttler run needs to be delayed in acq }  func (t *tcase) run(index int) (dur time.Duration, err error) { \t// get context with fallback \tctx := context.Background() \tif index t.ctxs) { \tctx = t.ctxs[index] \t} \t// run additional pre action only if present \tif index t.pres) { \tif pre := t.pres[index]; pre != nil { \t_ = pre(ctx) \t} \t} \tvar ts time.Time \t// try catch panic into error \tfunc() { \tdefer atomicIncr(\u0026t.idx) \tdefer func() { \tif msg := recover(); msg != nil { \terr = msg.(ErrorInternal) \t} \t}() \tts = time.Now() \t// force strict acquire order \tfor index != int(atomicGet(\u0026t.idx)) { \t_ = sleep(ctx, time.Microsecond) \t} \t// set additional timestamp only if present \tif index t.tss) { \tctx = WithTimestamp(ctx, time.Now().Add(t.tss[index])) \t} \terr = t.thr.Acquire(ctx) \t// in case of threshold error \tif terr, ok := err.(ErrorThreshold); ok { \t// check whether it's durations threshold \tif durs, ok := terr.Threshold.(strdurations); ok { \t// then round current values to milliseconds \tdurs.current = durs.current.Round(time.Millisecond) \tterr.Threshold = durs \terr = terr \t} \t} \t// if next throttler run needs to be delayed sleep for wait \tif t.wait  0 { \t_ = sleep(ctx, t.wait) \t} \t}() \tdur = time.Since(ts) \t// run additional action only if present \tif index t.acts) { \tif act := t.acts[index]; act != nil { \t_ = act(ctx) \t} \t} \tlimit := 1 \tif t.over \u0026\u0026 uint64(index+1) == t.tms { // imitate over releasing on last call \tlimit = index + 1 \t} \tif t.pass { \tlimit = 0 \t} \tfor i := 0; i limit; i++ { \tif err := t.thr.Release(ctx); err != nil { \treturn dur, err \t} \t} \treturn }  func (t *tcase) result(index int) (dur time.Duration, err error) { \tif index t.errs) { \terr = t.errs[index] \t} \tif index t.durs) { \tdur = t.durs[index] \t} \treturn } Structure tcase represents single test case data set for any given throttler. It flexibly configures what actions should be applied to the throttler, how many times, in which order, with what extra options and what results should we expect after this. The main idea here - for each test case to define how many parallel concurrent calls needs to be applied to the throttler tms; to define ordered lists of actions acts and pres to be executed on the throttler; to define ordered lists of options that need to be propagated to the throttler tss, ctxs; define global options for the run over, pass, wait; and finally to define ordered lists of result expectations errs, durs. To ensure strict ordering, simple spin lock like technique is used.\nfunc() { \tdefer atomicIncr(\u0026t.idx) \t// force strict acquire order \tfor index != int(atomicGet(\u0026t.idx)) { \t_ = sleep(ctx, time.Microsecond) \t} \terr = t.thr.Acquire(ctx) \t}() The heart of test routine itself is placed inside main test entry point loop.\nfunc TestThrottlers(t *testing.T) { \ttable := map[string]tcase{ \t// code here is omitted \t} \tfor tname, ptrtcase := range table { \tt.Run(tname, func(t *testing.T) { \tvar wg sync.WaitGroup \twg.Add(int(ptrtcase.tms)) \tfor i := 0; i ptrtcase.tms); i++ { \tt.Run(fmt.Sprintf(\"run %d\", i+1), func(t *testing.T) { \tgo func(index int, tcase *tcase) { \tdefer wg.Done() \trdur, rerr := tcase.result(index) \tdur, err := tcase.run(index) \ttrun.Run(func(context.Context) error { \tlog(\"expected error %v actual err %v\", rerr, err) \tlog(\"expected duration le %s actual duration %s\", rdur/2, dur) \trequire.Equal(t, rerr, err) \trequire.LessOrEqual(t, int64(rdur/2), int64(dur)) \treturn nil \t}) \t}(i, \u0026ptrtcase) \t}) \t} \twg.Wait() \t}) \t} } Nothing super fancy happens here; we iterate over test cases table and run them one by one. Note two things though: first we cannot use t.Parallel runner here as we need strict control over execution ordering for a sinlgle test case and second we are using approximate comparison of resulting durations require.LessOrEqual(t, int64(rdur/2), int64(dur)) to reduce test brittleness.\nI acknowledge that this code is far from masterpiece. Moreover, it even fails occasionally (from my experience false positive rate is less than couple percents) which could be resolved by further adjusting comparison durations threshold and tuning individual test cases. But overal, this code works great and it helped me to reduce test helper boilerplates to the bare minimum.\nInstead of any conclusion, I want to provide some numbers for gohalt tests. The ratio of test setup helper code to real test case scenarios is approximately 1:7. The ratio of test code to library code itself is an approximately 1:1 while vast majority of all code is fully covered. I highly doubt that the same amount of tests with the same coverage could be possible if the rule of simple tests was followed. So, as always, don’t follow any Software Engineering dogma blindly, think what suits your situation best and stay tuned for more reading!\n",
+  "articleBody": "Recently, I’ve finished my reading of “Software Engineering at Google” book. Despite the fact that this book contains considerable amount of: information duplicity, obvious advices and quite generic explanations. I still can suggest this book to anyone interested in understanding the modern Software Engineering industry. Although be advised that book doesn’t go very deep with any given topic. Rather, it’s just quite nicely composed collection of easy to read and understand thoughts from Google engineers.\nOne subject highlighted in this book got me thinking more than others - testing. The book spends quite some time on it, having sections: “Testing Overview”, “Unit Testing”, “Test Doubles”, “Larger Testing”, etc. And while most of the points given by the authors here are 100% undeniable:\n“follow proper ratio between unit/integration/e2e tests 80/15/5 (also known as test pyramid)”; “test everything that is important for your application, i.e. anything that brings you the value directly or indirectly (so-called Beyoncé rule)”; “do not over use mocks, prefer to use real implementation instead (test behavior not methods)”; “try to avoid having brittle tests as much as you can (in the long run they might appear to be a big problem)”; “aim for simplest possible test, try to not use any logic inside your tests”; and so much more other useful and practical advices; It’s definitely worth to say that all of these advices are not ultimate truth and specific needs of specific systems could outweigh them easily.\nNot so long ago, I was adding quite complex test suites for one of my open source projects throttler library gohalt. Originally, I underestimated this task, thinking: “how hard it would be to add some decent test coverage to project that is already well prepared to be tested (it has one core throttler interface and 30+ throttlers implementations) … it should be super easy to use test table here, right?”. I was horribly wrong 🤪. For the beginning, we need to understand that logically all throttlers are used in concurrent muli-threading environments (otherwise, why would you use throttlers in the first place). Therefore, tests for thottlers require to have heavy concurrent testing workload; otherwise they provide test scenarios far from reallity and generally have value close to zero. But one does not simply - to have one test table to rule all throttlers that act differently and need radically different setup for concurrent workload.\nWhat does “Software Engineering at Google” book suggest to do in such case scenario? I believe majority of readers will answer the rule still stands “do not add any complex logic inside you test”. But then we have only single choice here: ditch out nice table driven testing approach and use separate test case scenario for each trottler with separate setup helper for each test case respectively. Although this approach is sound on paper, for gohalt it has single fatal flow - the amount of testing boilerplates will be outstading. It’s hard to say with certainty how much testing code will be needed. But my expectations are that amout of testing code will be at least double amount of actual project code itself 😮 maybe even more. While it might be acceptable and even preferable to someone to have huge, verbose but very explicit test suite, I decided to cheat a bit and go smart on this instead. I went with using table driven testing approach with separate “overcomplicated” test case setup structure for any given test case full gohalt test code.\nLet’s look on resulting code briefly.\nvar trun Runner = NewRunnerSync(context.Background(), NewThrottlerBuffered(1)) type tcase struct { tms uint64 // number of sub runs inside one case thr Throttler // throttler itself acts []Runnable // actions that need to be throttled pres []Runnable // actions that neeed to be run before throttle tss []time.Duration // timestamps that needs to be applied to contexts set ctxs []context.Context // contexts set for throttling errs []error // expected throttler errors durs []time.Duration // expected throttler durations idx uint64 // carries seq number of sub run execution over bool // if throttler needs to be over released pass bool // if throttler doesn't need to be released wait time.Duration // if next throttler run needs to be delayed in acq } func (t *tcase) run(index int) (dur time.Duration, err error) { // get context with fallback ctx := context.Background() if index \u003c len(t.ctxs) { ctx = t.ctxs[index] } // run additional pre action only if present if index \u003c len(t.pres) { if pre := t.pres[index]; pre != nil { _ = pre(ctx) } } var ts time.Time // try catch panic into error func() { defer atomicIncr(\u0026t.idx) defer func() { if msg := recover(); msg != nil { err = msg.(ErrorInternal) } }() ts = time.Now() // force strict acquire order for index != int(atomicGet(\u0026t.idx)) { _ = sleep(ctx, time.Microsecond) } // set additional timestamp only if present if index \u003c len(t.tss) { ctx = WithTimestamp(ctx, time.Now().Add(t.tss[index])) } err = t.thr.Acquire(ctx) // in case of threshold error if terr, ok := err.(ErrorThreshold); ok { // check whether it's durations threshold if durs, ok := terr.Threshold.(strdurations); ok { // then round current values to milliseconds durs.current = durs.current.Round(time.Millisecond) terr.Threshold = durs err = terr } } // if next throttler run needs to be delayed sleep for wait if t.wait \u003e 0 { _ = sleep(ctx, t.wait) } }() dur = time.Since(ts) // run additional action only if present if index \u003c len(t.acts) { if act := t.acts[index]; act != nil { _ = act(ctx) } } limit := 1 if t.over \u0026\u0026 uint64(index+1) == t.tms { // imitate over releasing on last call limit = index + 1 } if t.pass { limit = 0 } for i := 0; i \u003c limit; i++ { if err := t.thr.Release(ctx); err != nil { return dur, err } } return } func (t *tcase) result(index int) (dur time.Duration, err error) { if index \u003c len(t.errs) { err = t.errs[index] } if index \u003c len(t.durs) { dur = t.durs[index] } return } Structure tcase represents single test case data set for any given throttler. It flexibly configures what actions should be applied to the throttler, how many times, in which order, with what extra options and what results should we expect after this. The main idea here - for each test case to define how many parallel concurrent calls needs to be applied to the throttler tms; to define ordered lists of actions acts and pres to be executed on the throttler; to define ordered lists of options that need to be propagated to the throttler tss, ctxs; define global options for the run over, pass, wait; and finally to define ordered lists of result expectations errs, durs. To ensure strict ordering, simple spin lock like technique is used.\nfunc() { defer atomicIncr(\u0026t.idx) // force strict acquire order for index != int(atomicGet(\u0026t.idx)) { _ = sleep(ctx, time.Microsecond) } err = t.thr.Acquire(ctx) }() The heart of test routine itself is placed inside main test entry point loop.\nfunc TestThrottlers(t *testing.T) { table := map[string]tcase{ // code here is omitted } for tname, ptrtcase := range table { t.Run(tname, func(t *testing.T) { var wg sync.WaitGroup wg.Add(int(ptrtcase.tms)) for i := 0; i \u003c int(ptrtcase.tms); i++ { t.Run(fmt.Sprintf(\"run %d\", i+1), func(t *testing.T) { go func(index int, tcase *tcase) { defer wg.Done() rdur, rerr := tcase.result(index) dur, err := tcase.run(index) trun.Run(func(context.Context) error { log(\"expected error %v actual err %v\", rerr, err) log(\"expected duration le %s actual duration %s\", rdur/2, dur) require.Equal(t, rerr, err) require.LessOrEqual(t, int64(rdur/2), int64(dur)) return nil }) }(i, \u0026ptrtcase) }) } wg.Wait() }) } } Nothing super fancy happens here; we iterate over test cases table and run them one by one. Note two things though: first we cannot use t.Parallel runner here as we need strict control over execution ordering for a sinlgle test case and second we are using approximate comparison of resulting durations require.LessOrEqual(t, int64(rdur/2), int64(dur)) to reduce test brittleness.\nI acknowledge that this code is far from masterpiece. Moreover, it even fails occasionally (from my experience false positive rate is less than couple percents) which could be resolved by further adjusting comparison durations threshold and tuning individual test cases. But overal, this code works great and it helped me to reduce test helper boilerplates to the bare minimum.\nInstead of any conclusion, I want to provide some numbers for gohalt tests. The ratio of test setup helper code to real test case scenarios is approximately 1:7. The ratio of test code to library code itself is an approximately 1:1 while vast majority of all code is fully covered. I highly doubt that the same amount of tests with the same coverage could be possible if the rule of simple tests was followed. So, as always, don’t follow any Software Engineering dogma blindly, think what suits your situation best and stay tuned for more reading!\n",
   "wordCount" : "1474",
   "inLanguage": "en",
   "datePublished": "2021-03-21T00:00:00Z",
@@ -99,56 +136,19 @@
     }
 
 </script>
-<noscript>
-    <style type="text/css">
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: #1d1e20;
-                --entry: #2e2e33;
-                --primary: rgba(255, 255, 255, 0.84);
-                --secondary: rgba(255, 255, 255, 0.56);
-                --tertiary: rgba(255, 255, 255, 0.16);
-                --content: rgba(255, 255, 255, 0.74);
-                --hljs-bg: #2e2e33;
-                --code-bg: #37383e;
-                --border: #333;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://1pkg.github.io" accesskey="h" title="~ (Alt + H)">~</a>
-            <span class="logo-switches">
+            <a href="https://1pkg.github.io/" accesskey="h" title="~ (Alt + H)">~</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -162,7 +162,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
         </ul>
@@ -173,10 +173,11 @@
 <article class="post-single">
   <header class="post-header">
     
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Writing complex concurrent table driven tests
     </h1>
-    <div class="post-meta">March 21, 2021&nbsp;·&nbsp;Kostiantyn Masliuk
+    <div class="post-meta"><span title='2021-03-21 00:00:00 +0000 UTC'>March 21, 2021</span>&nbsp;·&nbsp;Kostiantyn Masliuk
+
 </div>
   </header> 
   <div class="post-content"><p>Recently, I&rsquo;ve finished my reading of &ldquo;Software Engineering at Google&rdquo; book. Despite the fact that this book contains considerable amount of: information duplicity, obvious advices and quite generic explanations. I still can suggest this book to anyone interested in understanding the modern Software Engineering industry. Although be advised that book doesn&rsquo;t go very deep with any given topic. Rather, it&rsquo;s just quite nicely composed collection of easy to read and understand thoughts from Google engineers.</p>
@@ -331,31 +332,36 @@
 
 
   </div>
+
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
-    <footer class="footer">
-    <span>&copy; 2022 <a href="https://1pkg.github.io">1pkg dev blog</a></span>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://1pkg.github.io/">1pkg dev blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
-    <button class="top-link" id="top-link" type="button" accesskey="g">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-            <path d="M12 6H0l6-6z" />
-        </svg>
-    </button>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
 </a>
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

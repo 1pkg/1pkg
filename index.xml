@@ -4,102 +4,84 @@
     <title>1pkg dev blog</title>
     <link>https://1pkg.github.io/</link>
     <description>Recent content on 1pkg dev blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.125.1</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 24 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://1pkg.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>One more aspect of struct layout in Go</title>
       <link>https://1pkg.github.io/posts/one_more_aspect_of_struct_layout_in_go/</link>
       <pubDate>Fri, 24 Dec 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/one_more_aspect_of_struct_layout_in_go/</guid>
       <description>Some days ago I got a new intriguing issue opened for gopium which is one of my projects, I maintain. In a few words: fieldalign linter in govet complained about unoptimal fields with pointer data ordering produced by gopium memory packing strategy.
 On a surface, the issue looks strange. Why would ordering of fields containing pointers inside structure matter? Many developers know for the fact that structure alignment and field order matters in a number of situations.</description>
     </item>
-    
     <item>
       <title>What does algorithm intuition really mean</title>
       <link>https://1pkg.github.io/posts/what_does_algorithm_intuition_really_mean/</link>
       <pubDate>Sat, 28 Aug 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/what_does_algorithm_intuition_really_mean/</guid>
       <description>Lately I&amp;rsquo;ve reached to Concepts and Algorithm Intuition episode of CppCast in my podcast listening routine. Which also expanded into watching two subsequent CppCon 2019 talks Algorithm Intuition (part 1 of 2) and Algorithm Intuition (part 2 of 2) given by Conor Hoekstra.
 While the ideas and lines of thinking behind &amp;ldquo;Algorithm Intuition&amp;rdquo; listed there are sane. I still got an odd aftertaste after going through them. In a few words, the author makes a claim that C++ STL takes on algorithms and data structures fields is the right one.</description>
     </item>
-    
     <item>
       <title>A word about benchmarking</title>
       <link>https://1pkg.github.io/posts/a_word_about_benchmarking/</link>
       <pubDate>Sat, 05 Jun 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/a_word_about_benchmarking/</guid>
       <description>Some time ago, routinely jumping through blogs of people I consider interesting on github, I found one great blog focused on Rust and its surroundings. Frankly, I don&amp;rsquo;t care about Rust that much right now. Mostly because I don&amp;rsquo;t like the ideas behind the language and one, which is even more important I haven&amp;rsquo;t even tried to write something meaningful using Rust. Neverthelse, it&amp;rsquo;s always beneficial to read different opinions on the topics that you both know well and superficially.</description>
     </item>
-    
     <item>
       <title>Hedged http requests to reduce tail latency</title>
       <link>https://1pkg.github.io/posts/hedged_http_requests_to_reduce_tail_latency/</link>
       <pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/hedged_http_requests_to_reduce_tail_latency/</guid>
       <description>Recently, I stumbled upon an article from Google engineers that describes ways of reducing tail latency used inside Google. Among obvious methods like: managing background activities and adding priorities queues on various system levels. There were also listed multiple methods, efficiency of which might look less evident at the first glance. Notably, in &amp;ldquo;within request short-term&amp;rdquo; section:
 Hedged requests. A simple way to curb latency variability is to issue the same request to multiple replicas and use the results from whichever replica responds first.</description>
     </item>
-    
     <item>
       <title>Golang dead end generics journey</title>
       <link>https://1pkg.github.io/posts/golang_dead_end_generics_journey/</link>
       <pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/golang_dead_end_generics_journey/</guid>
       <description>As the proposal of adding generics in go has finally came to its endspiel and has been accepted. I want to add my two cents on this event and explain why I think that generics is a bad idea how to introduce a meta programming to go.
 Origins The history of generics in go is truly amazing. The ultimate answer to the question of having generics in go has evolved together with the language.</description>
     </item>
-    
     <item>
       <title>Implementing go ambiguous operator</title>
       <link>https://1pkg.github.io/posts/implementing_go_ambiguous_operator/</link>
       <pubDate>Sun, 11 Apr 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/implementing_go_ambiguous_operator/</guid>
       <description>Lately, I discovered one great tech blog https://tpaschalis.github.io. One of the articles that caught my eye was amb operator in golang. In my opinion, ambigious operator is brilliant concept in scope of elegant functional programming. Ambiguous operator is defined by its author John McCarthy as
 Ambiguous functions: Functions whose value are incompletely specified. May be useful in providing facts about functions where certain details are irrelevant to the statement being proved.</description>
     </item>
-    
     <item>
       <title>Writing complex concurrent table driven tests</title>
       <link>https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/</link>
       <pubDate>Sun, 21 Mar 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/writing_complex_concurrent_table_driven_tests/</guid>
       <description>Recently, I&amp;rsquo;ve finished my reading of &amp;ldquo;Software Engineering at Google&amp;rdquo; book. Despite the fact that this book contains considerable amount of: information duplicity, obvious advices and quite generic explanations. I still can suggest this book to anyone interested in understanding the modern Software Engineering industry. Although be advised that book doesn&amp;rsquo;t go very deep with any given topic. Rather, it&amp;rsquo;s just quite nicely composed collection of easy to read and understand thoughts from Google engineers.</description>
     </item>
-    
     <item>
       <title>Private repository dependency management with gomod</title>
       <link>https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/</link>
       <pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/</guid>
       <description>According to go survey 2020, gomod has finally won long disputes around dependency management in go: &amp;ldquo;Go modules adoption is nearly universal with 77% satisfaction, but respondents also highlight a need for improved docs&amp;rdquo;. This is not surprising at all, as it is indeed a solid tool, but even more importantly, included into default go distribution as the official dependency management tool. With that said, gomod is not ideal (as any other complex tool) sometimes you can stumble upon some controversial decisions or need to know some internal implementation details to use it properly in some less common setups.</description>
     </item>
-    
     <item>
       <title>Let&#39;s make closed channels more useful</title>
       <link>https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/</link>
       <pubDate>Sat, 02 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/lets_make_closed_channels_more_useful/</guid>
       <description>Go zero values Zero values is an extremely useful feature of golang, you can read nice detailed article about why they are so important. They are not only making day to day programming simpler but also save everyone from whole layer of &amp;ldquo;uninitialized variable&amp;rdquo; errors specific to languages like C. Personally I think that it would be beneficial if go could provide us with more useful safe zero value for all builtin structures.</description>
     </item>
-    
     <item>
       <title>Let&#39;s trace goroutine allocated memory</title>
       <link>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</link>
       <pubDate>Tue, 08 Dec 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://1pkg.github.io/posts/lets_trace_goroutine_allocated_memory/</guid>
       <description>Memory tracing retrospective On the dawn of computer era, every allocated piece of memory was properly accounted by a programmer, it was not possible otherwise as memory was limited and precious fundamental resource. Memory is no less fundamental resource nowadays but with its exponential growth per single machine; trend of adding more high level memory management abstractions bloomed. In languages like C it&amp;rsquo;s rather easy to calculate exact amount of memory allocated (you fully control all heap allocation by yourself), on the other hand it&amp;rsquo;s not that simple in languages like Go that are hiding memory management details inside runtime abstractions.</description>
     </item>
-    
   </channel>
 </rss>

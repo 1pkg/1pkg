@@ -6,13 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Private repository dependency management with gomod | 1pkg dev blog</title>
-<meta name="keywords" content="" />
+<meta name="keywords" content="">
 <meta name="description" content="According to go survey 2020, gomod has finally won long disputes around dependency management in go: &ldquo;Go modules adoption is nearly universal with 77% satisfaction, but respondents also highlight a need for improved docs&rdquo;. This is not surprising at all, as it is indeed a solid tool, but even more importantly, included into default go distribution as the official dependency management tool. With that said, gomod is not ideal (as any other complex tool) sometimes you can stumble upon some controversial decisions or need to know some internal implementation details to use it properly in some less common setups.">
 <meta name="author" content="Kostiantyn Masliuk">
-<link rel="canonical" href="https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6cba0d81b5f3f42bb578d49f402ba4175aa72b43def148780b8ad714c957c6f5.css" integrity="sha256-bLoNgbXz9Cu1eNSfQCukF1qnK0Pe8Uh4C4rXFMlXxvU=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.2840b7fccd34145847db71a290569594bdbdb00047097f75d6495d162f5d7dff.js" integrity="sha256-KEC3/M00FFhH23GikFaVlL29sABHCX911kldFi9dff8="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://1pkg.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://1pkg.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://1pkg.github.io/favicon-32x32.png">
@@ -20,13 +18,52 @@
 <link rel="mask-icon" href="https://1pkg.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.99.1" />
+<link rel="alternate" hreflang="en" href="https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
 <meta property="og:title" content="Private repository dependency management with gomod" />
 <meta property="og:description" content="According to go survey 2020, gomod has finally won long disputes around dependency management in go: &ldquo;Go modules adoption is nearly universal with 77% satisfaction, but respondents also highlight a need for improved docs&rdquo;. This is not surprising at all, as it is indeed a solid tool, but even more importantly, included into default go distribution as the official dependency management tool. With that said, gomod is not ideal (as any other complex tool) sometimes you can stumble upon some controversial decisions or need to know some internal implementation details to use it properly in some less common setups." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-03-20T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-03-20T00:00:00&#43;00:00" /><meta property="og:site_name" content="1pkg dev blog" />
+<meta property="article:published_time" content="2021-03-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-20T00:00:00+00:00" /><meta property="og:site_name" content="1pkg dev blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Private repository dependency management with gomod"/>
@@ -37,16 +74,16 @@
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Posts",
       "item": "https://1pkg.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
-      "position":  3 ,
+      "position":  2 ,
       "name": "Private repository dependency management with gomod",
       "item": "https://1pkg.github.io/posts/private_repository_dependency_management_with_gomod/"
     }
@@ -63,7 +100,7 @@
   "keywords": [
     
   ],
-  "articleBody": "According to go survey 2020, gomod has finally won long disputes around dependency management in go: “Go modules adoption is nearly universal with 77% satisfaction, but respondents also highlight a need for improved docs”. This is not surprising at all, as it is indeed a solid tool, but even more importantly, included into default go distribution as the official dependency management tool. With that said, gomod is not ideal (as any other complex tool) sometimes you can stumble upon some controversial decisions or need to know some internal implementation details to use it properly in some less common setups.\nI had to configure some new gomod environment for a private repository recently. I vaguely remembered that simply using gomod out of the box is coupled with some source code security concerns. After a quick research, I found a kind of confirmation of my assumption: you can also read the official answer to - what will happen if you do not set GOPRIVATE env variable properly here in FAQ.\nIf I don't set GOPRIVATE and request a private module from these services, what leaks? The proxy and checksum database protocols only send module paths and versions to the remote server. If you request a private module, the mirror will try to download it just as any Go user would and fail in the same way. Information about failed requests isn't published anywhere. The only trace of the request will be in internal logs, which are governed by the [privacy policy](https://proxy.golang.org/privacy). As goproxy.io states “gomod defaults work well for publicly available source code”, though this behavior might be far from ideal for your private repository. In my specific case, gomod default behavior was not really a big deal, even if GOPRIVATE is not set properly. I also believe that most of the private projects can tolerate unwanted request trace appearance in internal google logs, but there are obvious exceptions to this if you require to have source code protection in place.\nOne extra interesting aspect that might hurt a private go module is proxy immutability. If private module gets to proxy somehow (even by mistake) there is no simple turning back see FAQ again.\nI removed a bad release from my repository but it still appears in the mirror, what should I do? Whenever possible, the mirror aims to cache content in order to avoid breaking builds for people that depend on your package, so this bad release may still be available in the mirror even if it is not available at the origin. The same situation applies if you delete your entire repository. We suggest creating a new version and encouraging people to use that one instead. From that point in time, I became curious: if there any simple way how to check if proxy contains my private module “x”. Unfortunately, gomod doesn’t have anything builtin for this. But proxy provides API “index.golang.org” that contains feed of all added modules. So in theory, we can use this API to create teeny-tiny cli tool to query gomod and cache modules feed locally for the faster access. I’ve decided to go ahead and create such tool, plus add some extra semver filtering, modules sorting, and other options to make the tool more generic and easy to use. The tool can be found here on github gomer.\ngomer -h Usage of gomer: [-f val] [-f val]  -constraint string cli semver constraint pattern; used only if non empty valid constraint specified -format string cli printf format for printing a module entry; \\n is auto appended (default \"%s %s %s\") -index string cli go module index database url; golang.org index is used by default (default \"https://index.golang.org/index\") -nocache cli modules no caching flag; caching is enabled by default (default false) -timeout int cli timeout in seconds; only considered when value bigger than 0 (default 0) -verbose cli verbosity logging flag; verbosity is disabled by default (default false) P.S.\nWhile using gomer I’ve also made one observation. Cached modules feed (reused for fast modules search) is partitioned by original module upload time (more precisely by original upload month). Looking at created partitioned cache files, we can see that size of cached files is growing superlineary from the start of gomod official launch till now (which also means that number of go modules growing in the similar fashion).\nls -lh | awk '{print $5,$9}' 1.6M page_2019-04-10T....json 1.2M page_2019-05-10T....json 2.2M page_2019-06-09T....json 9.7M page_2019-07-09T....json 4.3M page_2019-08-08T....json 14M page_2019-09-07T.....json 18M page_2019-10-07T.....json 7.1M page_2019-11-06T....json 18M page_2019-12-06T.....json 9.2M page_2020-01-05T....json 9.8M page_2020-02-04T....json 22M page_2020-03-05T.....json 15M page_2020-04-04T.....json 14M page_2020-05-04T.....json 14M page_2020-06-03T.....json 12M page_2020-07-03T.....json 12M page_2020-08-02T.....json 12M page_2020-09-01T.....json 11M page_2020-10-01T.....json 21M page_2020-10-31T.....json 47M page_2020-11-30T.....json 35M page_2020-12-30T.....json 55M page_2021-01-29T.....json This is expected as more and more people starting to use gomod as primary dependency management tool and nicely corresponded with results of go survey 2020.\n",
+  "articleBody": "According to go survey 2020, gomod has finally won long disputes around dependency management in go: “Go modules adoption is nearly universal with 77% satisfaction, but respondents also highlight a need for improved docs”. This is not surprising at all, as it is indeed a solid tool, but even more importantly, included into default go distribution as the official dependency management tool. With that said, gomod is not ideal (as any other complex tool) sometimes you can stumble upon some controversial decisions or need to know some internal implementation details to use it properly in some less common setups.\nI had to configure some new gomod environment for a private repository recently. I vaguely remembered that simply using gomod out of the box is coupled with some source code security concerns. After a quick research, I found a kind of confirmation of my assumption: you can also read the official answer to - what will happen if you do not set GOPRIVATE env variable properly here in FAQ.\nIf I don't set GOPRIVATE and request a private module from these services, what leaks? The proxy and checksum database protocols only send module paths and versions to the remote server. If you request a private module, the mirror will try to download it just as any Go user would and fail in the same way. Information about failed requests isn't published anywhere. The only trace of the request will be in internal logs, which are governed by the [privacy policy](https://proxy.golang.org/privacy). As goproxy.io states “gomod defaults work well for publicly available source code”, though this behavior might be far from ideal for your private repository. In my specific case, gomod default behavior was not really a big deal, even if GOPRIVATE is not set properly. I also believe that most of the private projects can tolerate unwanted request trace appearance in internal google logs, but there are obvious exceptions to this if you require to have source code protection in place.\nOne extra interesting aspect that might hurt a private go module is proxy immutability. If private module gets to proxy somehow (even by mistake) there is no simple turning back see FAQ again.\nI removed a bad release from my repository but it still appears in the mirror, what should I do? Whenever possible, the mirror aims to cache content in order to avoid breaking builds for people that depend on your package, so this bad release may still be available in the mirror even if it is not available at the origin. The same situation applies if you delete your entire repository. We suggest creating a new version and encouraging people to use that one instead. From that point in time, I became curious: if there any simple way how to check if proxy contains my private module “x”. Unfortunately, gomod doesn’t have anything builtin for this. But proxy provides API “index.golang.org” that contains feed of all added modules. So in theory, we can use this API to create teeny-tiny cli tool to query gomod and cache modules feed locally for the faster access. I’ve decided to go ahead and create such tool, plus add some extra semver filtering, modules sorting, and other options to make the tool more generic and easy to use. The tool can be found here on github gomer.\ngomer -h Usage of gomer: [-f val] [-f val] -constraint string cli semver constraint pattern; used only if non empty valid constraint specified -format string cli printf format for printing a module entry; \\n is auto appended (default \"%s %s %s\") -index string cli go module index database url; golang.org index is used by default (default \"https://index.golang.org/index\") -nocache cli modules no caching flag; caching is enabled by default (default false) -timeout int cli timeout in seconds; only considered when value bigger than 0 (default 0) -verbose cli verbosity logging flag; verbosity is disabled by default (default false) P.S.\nWhile using gomer I’ve also made one observation. Cached modules feed (reused for fast modules search) is partitioned by original module upload time (more precisely by original upload month). Looking at created partitioned cache files, we can see that size of cached files is growing superlineary from the start of gomod official launch till now (which also means that number of go modules growing in the similar fashion).\nls -lh | awk '{print $5,$9}' 1.6M page_2019-04-10T....json 1.2M page_2019-05-10T....json 2.2M page_2019-06-09T....json 9.7M page_2019-07-09T....json 4.3M page_2019-08-08T....json 14M page_2019-09-07T.....json 18M page_2019-10-07T.....json 7.1M page_2019-11-06T....json 18M page_2019-12-06T.....json 9.2M page_2020-01-05T....json 9.8M page_2020-02-04T....json 22M page_2020-03-05T.....json 15M page_2020-04-04T.....json 14M page_2020-05-04T.....json 14M page_2020-06-03T.....json 12M page_2020-07-03T.....json 12M page_2020-08-02T.....json 12M page_2020-09-01T.....json 11M page_2020-10-01T.....json 21M page_2020-10-31T.....json 47M page_2020-11-30T.....json 35M page_2020-12-30T.....json 55M page_2021-01-29T.....json This is expected as more and more people starting to use gomod as primary dependency management tool and nicely corresponded with results of go survey 2020.\n",
   "wordCount" : "798",
   "inLanguage": "en",
   "datePublished": "2021-03-20T00:00:00Z",
@@ -99,56 +136,19 @@
     }
 
 </script>
-<noscript>
-    <style type="text/css">
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: #1d1e20;
-                --entry: #2e2e33;
-                --primary: rgba(255, 255, 255, 0.84);
-                --secondary: rgba(255, 255, 255, 0.56);
-                --tertiary: rgba(255, 255, 255, 0.16);
-                --content: rgba(255, 255, 255, 0.74);
-                --hljs-bg: #2e2e33;
-                --code-bg: #37383e;
-                --border: #333;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://1pkg.github.io" accesskey="h" title="~ (Alt + H)">~</a>
-            <span class="logo-switches">
+            <a href="https://1pkg.github.io/" accesskey="h" title="~ (Alt + H)">~</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -162,7 +162,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
         </ul>
@@ -173,10 +173,11 @@
 <article class="post-single">
   <header class="post-header">
     
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Private repository dependency management with gomod
     </h1>
-    <div class="post-meta">March 20, 2021&nbsp;·&nbsp;Kostiantyn Masliuk
+    <div class="post-meta"><span title='2021-03-20 00:00:00 +0000 UTC'>March 20, 2021</span>&nbsp;·&nbsp;Kostiantyn Masliuk
+
 </div>
   </header> 
   <div class="post-content"><p>According to <a href="https://blog.golang.org/survey2020-results">go survey 2020</a>, gomod has finally won long disputes around dependency management in go: &ldquo;Go modules adoption is nearly universal with 77% satisfaction, but respondents also highlight a need for improved docs&rdquo;. This is not surprising at all, as it is indeed a solid tool, but even more importantly, included into default go distribution as the official dependency management tool. With that said, gomod is not ideal (as any other complex tool) sometimes you can stumble upon some <a href="https://github.com/golang/go/issues/26366">controversial decisions</a> or need to know some <a href="https://proxy.golang.org/">internal implementation details</a> to use it properly in some less common setups.</p>
@@ -242,31 +243,36 @@ Usage of gomer: [-f val] [-f val] &lt;module_path_regexp&gt;
 
 
   </div>
+
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
-    <footer class="footer">
-    <span>&copy; 2022 <a href="https://1pkg.github.io">1pkg dev blog</a></span>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://1pkg.github.io/">1pkg dev blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
-    <button class="top-link" id="top-link" type="button" accesskey="g">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-            <path d="M12 6H0l6-6z" />
-        </svg>
-    </button>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
 </a>
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

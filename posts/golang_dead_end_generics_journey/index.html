@@ -6,14 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Golang dead end generics journey | 1pkg dev blog</title>
-<meta name="keywords" content="" />
+<meta name="keywords" content="">
 <meta name="description" content="As the proposal of adding generics in go has finally came to its endspiel and has been accepted. I want to add my two cents on this event and explain why I think that generics is a bad idea how to introduce a meta programming to go.
 Origins The history of generics in go is truly amazing. The ultimate answer to the question of having generics in go has evolved together with the language.">
 <meta name="author" content="Kostiantyn Masliuk">
-<link rel="canonical" href="https://1pkg.github.io/posts/golang_dead_end_generics_journey/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6cba0d81b5f3f42bb578d49f402ba4175aa72b43def148780b8ad714c957c6f5.css" integrity="sha256-bLoNgbXz9Cu1eNSfQCukF1qnK0Pe8Uh4C4rXFMlXxvU=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.2840b7fccd34145847db71a290569594bdbdb00047097f75d6495d162f5d7dff.js" integrity="sha256-KEC3/M00FFhH23GikFaVlL29sABHCX911kldFi9dff8="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="canonical" href="https://1pkg.github.io/posts/golang_dead_end_generics_journey/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://1pkg.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://1pkg.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://1pkg.github.io/favicon-32x32.png">
@@ -21,14 +19,53 @@ Origins The history of generics in go is truly amazing. The ultimate answer to t
 <link rel="mask-icon" href="https://1pkg.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.99.1" />
+<link rel="alternate" hreflang="en" href="https://1pkg.github.io/posts/golang_dead_end_generics_journey/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
 <meta property="og:title" content="Golang dead end generics journey" />
 <meta property="og:description" content="As the proposal of adding generics in go has finally came to its endspiel and has been accepted. I want to add my two cents on this event and explain why I think that generics is a bad idea how to introduce a meta programming to go.
 Origins The history of generics in go is truly amazing. The ultimate answer to the question of having generics in go has evolved together with the language." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://1pkg.github.io/posts/golang_dead_end_generics_journey/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-04-25T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-04-25T00:00:00&#43;00:00" /><meta property="og:site_name" content="1pkg dev blog" />
+<meta property="article:published_time" content="2021-04-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-04-25T00:00:00+00:00" /><meta property="og:site_name" content="1pkg dev blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Golang dead end generics journey"/>
@@ -40,16 +77,16 @@ Origins The history of generics in go is truly amazing. The ultimate answer to t
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Posts",
       "item": "https://1pkg.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
-      "position":  3 ,
+      "position":  2 ,
       "name": "Golang dead end generics journey",
       "item": "https://1pkg.github.io/posts/golang_dead_end_generics_journey/"
     }
@@ -66,7 +103,7 @@ Origins The history of generics in go is truly amazing. The ultimate answer to t
   "keywords": [
     
   ],
-  "articleBody": "As the proposal of adding generics in go has finally came to its endspiel and has been accepted. I want to add my two cents on this event and explain why I think that generics is a bad idea how to introduce a meta programming to go.\nOrigins The history of generics in go is truly amazing. The ultimate answer to the question of having generics in go has evolved together with the language.\nOriginally, go official FAQ answered it in the following way.\nWhy does Go not have generic types? Generics may well be added at some point. We don't feel an urgency for them, although we understand some programmers do. Generics are convenient but they come at a cost in complexity in the type system and run-time. We haven't yet found a design that gives value proportionate to the complexity, although we continue to think about it. Meanwhile, Go's built-in maps and slices, plus the ability to use the empty interface to construct containers (with explicit unboxing) mean in many cases it is possible to write code that does what generics would enable, if less smoothly. This remains an open issue. But the answer has recently been updated and now FAQ contains.\nA language proposal implementing a form of generic types has been accepted for inclusion in the language. If all goes well it will be available in the Go 1.18 release. Go was intended as a language for writing server programs that would be easy to maintain over time. (See this article for more background.) The design concentrated on things like scalability, readability, and concurrency. Polymorphic programming did not seem essential to the language's goals at the time, and so was left out for simplicity. The language is more mature now, and there is scope to consider some form of generic programming. However, there remain some caveats. Generics are convenient but they come at a cost in complexity in the type system and run-time. We haven't yet found a design that gives value proportionate to the complexity, although we continue to think about it. Meanwhile, Go's built-in maps and slices, plus the ability to use the empty interface to construct containers (with explicit unboxing) mean in many cases it is possible to write code that does what generics would enable, if less smoothly. The topic remains open. For a look at several previous unsuccessful attempts to design a good generics solution for Go, see this proposal. Analyzing the community Let’s take a deeper look on how we got there. It all started since day 0 of go public appearance in 2010 with, in my opinion, the smart choice to not include generics in the initial language release. Soon enough, go conquered some popularity and developed community around. Along with this came endless complaints about lack of generics in go and related comparisons with Java and other languages alike. I believe, this is nicely explained by constant migration of new developers from other languages and their desire to make go look like mainstream language X.\nTo be 100% sure, though, let’s also analyze what people wanted and what they asked for exactly. Go is awesome; it has yearly official survey ritual to gather community opinion on various vital questions. Sad part though, there was not public go survey until year of 2016. Though, probably, it’s not that hard to find hundreds of articles with outcry complaining about lack of generics in go, daiting all the way back to the go release date. Still, we will use just public survey results as the source of the analyze. Once again, the data is a bit “fresh” and doesn’t fully represent the full historical perspective of generics bargaining, however, it verifies the fact that generics desire didn’t vanish within passing years.\n2016 generics are the first on What changes would improve Go most? 2017 generics are the second?! (no, the first) on What changes would improve Go most? 2018 surprisingly, generics are the third on What is the biggest challenge you personally face using Go today? (generics are only the third, probably, due to the question rephrasing) 2019 generics are the first (beating the second “better error handling” ~ 4/1) on Which critical features do you need which are not available in Go? 2020 generics are the first (this time difference with “better error handling” not that drastic) on Which critical features do you need which are not available in Go? One extra insightful source that is worth some attention - various official proposals around generics programming in go.\n Go should have generics, by Ian Lance Taylor January 2011 - April 2016  Type functions, June 2010 Generalized types, March 2011 Generalized types, October 2013 Type parameters, December 2013 Compile-time Functions and First Class Types, September 2016   Generics — Problem Overview, by Russ Cox August 2018  This list of proposals reminded me of another story of highly requested feature - dependency management. Just briefly scratching the surface and reading the last proposal stunned me with how similar it’s to the sad story of go dep. The story goes like this: in the response of community call to have a package management in go “a single man” went over the heads of the community and created gomod. Don’t get me wrong, gomod as a dependency management system turned out to be great, but even the man himself (famous go tech lead) called it nothing else but community mishandling.\nIn my eyes, generics story developed akin (maybe I’m overstretching here but I see at least some analogies between those two stories). The core go team had some internal particular, may be somewhat changing, vision of meta programming in go for years. And when time came, well, they went to implement it - veni, vidi, vici. It’s worth a little that the big chunk of community was successfully adopting the code generation that de facto was considered as the main meta programming approach prior to generics. In result of this internal vision we got contract generics draft, which left community mostly disappointed. However, unlike situations with dependency management, this time go team acted smarter. Instead of forcing community, they hired a known and respected 3-rd party to fix the generic design, see Featherweight Go by Phil Wadler. This moved a part of responsibility for go generics design out of the core go team. In my eyes, this kind of move defused the situation around generics, and made the community mostly happy with generics design in go. Still, in my eyes, It didn’t resolve core issues with generics in go.\nThe problems with generics in go Now, as we briefly walked through the most significant go generics milestones as I see and understand them. Let me highlight the most important points - why I think that generics is a bad idea how to introduce a meta programming to go.\n1. Generics make existing go type system inconsistent. Go has “limited generics” inside already, even FAQ says so “meanwhile, Go’s built-in maps and slices”. Introducing new form of generics that is orthogonal to those types will make existing built-in maps, slices, channels to not fit. Soon enough “better performing” generic vectors, maps, queues, etc. libraries will spring up like mushrooms. Which inevitably leads to flaking std library (welcome to C++), where you can find tens of different popular string type implementations.\n2. Generics use case is narrow, but they add a lot of weight to the language. Well, we know why generics are useful. My question here is: does generics usefulness overweights the cost for go or not? The thing, as I see it from my experience, go doesn’t really require generic most of the time. Again, referring to the latest survey 2020.\n90th percentile of all applications written in go, accordingly to the survey, is either server side API/RPC code or data processing pipelines or some tooling around them. For all of these domains, I personally, find polymorphic programming in general and generics in particular rarely useful. Going forward, most of the go projects are designed to be small and use service based approach. Sure, those smaller projects could benefit from generics too and they already do, by using built-in maps, slices and channels. What they don’t need almost 100% of the time - user defined generics, as it brings unnecessary complexity and bloats their small and simple code. But what about those bigger projects written in go, you might ask. I think, the answer is - golang shouldn’t even try to match those “big projects” needs and period. Because, in my opinion, it’s impossible to match n radically different requirements for n projects which size is comparable to go project itself.\n3. Generics are impossible to take back from the language. Generics is a huge change, maybe the biggest change that will be ever introduced to go (from cognitive perspective at the very least). It worth to take a step back and say that go doesn’t really follow semver spec closely for versioning their releases. The second part of go release version represents major version instead of semver mandated backwards minor version. So an idea of releasing generics beta under 1.18+ is fine, technically. But I personally will argue that generics has to be in go2.x if in any version at all. Mainly because of two related reasons:\n generics impact, effectively generics will create new sub language inside go (as it already had happened with all languages that went this very path before) and will have various implications on std library, existing code bases, new libraries development, etc. mudding existing go1.x with a feature that never can be removed and which splits the language on before generics and after generics.  With that said, I think adding generics as-is or redesigning them to accomplish more into go2.x and not into go1.x might be a good middle ground. At the very least, it will buy some more time to think and sleep on it, which is a really goish way of doing things.\n4. Generics will make a part of community disappointed. After years and years of go community defeneding absence of generics and learning how to live with tradeoffs of language design simplicity to language features. We, suddenly, got 180 degree turn in 1 year time window (I bet, nobody treated generics proposals as something feasible before that). Changing people mentality and beliefs is not a simple process, and I’d imagine a lot of people got frustrated because of this turn. Subjectively, despite of survey results, I think, that the true majority of people working with go on a daily basis didn’t want generics.\n5. Generics implementation matters a lot, where generics via “boxing” doesn’t bring a lot of value in go. There is a brilliant article that describes models of generics and metaprogramming and their implementation in various languages in depth. I don’t want to dive too deep into comparison of two major classes of solutions to generics: “boxing” and “monomorphization” here in this article. I just say that if go team will decide to use “boxing” for the generics implementation, it will be a terrible misttake. In result, technically, just adding a syntax sugar on top of beloved interface{} type, thus trading language complexity for a syntax sugar.\nAlternatives Summarizing all said above, I think that go generics is a bad idea, at least for go1.x, in any imaginable form. There are some alternative options that could facilitate the need for meta programming in go2.x that I feel might be more natural for go, from the least to the most invasive:\n keep the language it as-is, go was doing great in keeping generics status quo for years, why should it ever change if the absolute majority of use cases have no profit from them; add a few more generic built-in types (and functions) similarly to existing maps, slices, channels type inside the language runtime, I’d imagine couple basic popular data structure types like: list, set and ordered map will make vast majority of the people, asking for generics in go, satisfied; embrace and improve code generation and macrosing tooling as community driven solutions; accept generics in go2.x but also make existing type system maps, slices, channels work well with it (will most likely require to break existing type system completely), also, perhaps, it will demand to add operators overloading as well (to entitle user defined generics to be similar to built-in types), I’d expect final product to have a C++ style; dive much deeper into meta programming and prefer far superior compile time execution instead, e.g. zig does this, in fact you can even find official proposal in the past Compile-time Functions and First Class Types that, sadly, didn’t get a lot of attention;  In conclusion, I shared my personal thoughts on go generics journey and why I’m dissatisfied with the current state of the generics in go. I just tried to express my thoughts and hopefully didn’t hurt anyone’s feelings, and If I did, please take my apology in advance. All and all, adding a meta programming support in a quite popular language with a long history of battling generics - is not an easy task. Generics were and still are the long requested feature by community, and their addition to the language might be good in the very end, but currently I have mixed feelings about them. My only hope is that some weak points of current generics desing will not make the way to the final public go release. Thank you for reading and as always stay tuned for more reading!\nUpdate April 27, 2021 This post sparked quite intense discussions on reddit.\nAs pointed out in comments, logically, go actually does follow semver. And I originally misread somewhat confusing release page. It's not a \"major\" version in the Semver sense of the word, they are just referring to the Go maintenance policy. Which makes the idea of releasing generics in go1.x idea even worse, in my opinion.\nMore importantly, there were a lot of people defending different sides of the generics camp in their own way. Which clearly shows that at least some of my points (“generics will make a part of community disappointed”) were valid. Nevertheless, I didn’t mean to start another round of holywar on this subject, neither to force people to change their position. My only intention is and ever was to share my perspective and discuss this thrilling topic with others.\nMay 02, 2021 As also pointed, “unsound” has a very particular meaning in type theory. Therefore “Generics make existing go type system inconsistent” is more accurate thing to say. Also a lot of commenters were frustrated by the phrase “in result, technically, just adding a syntax sugar on top of beloved interface{} type, thus trading language complexity for a syntax sugar”. I admit my mistake here, unconsciously, I didn’t list obvious benefit that any generics implementation will bring - improved type safety.\nJan 19, 2022 As generics (Type Parameters) are about to hit next Go release, I want to reflect a bit on this article and on generics journey evolution. Since the last update to this article, the Type Parameters design polished all rough spots, and landed on the final minimalistic type sets of constraints design. Less is more, as they say. The Go team and community did a great job trying to contain the ambiguous scope of generics. And deliberately push some parts of the design like parameterized methods to the future.\nAnswering my own questions from the past now:\n Generics make existing go type system inconsistent.  Generics will definetely change the way we interact with existing Go type system for the better or worse. But with first party support and latest drive to pivot common types slice map around type parameters - Go type system shouldn’t be inconsistent.\n Generics use case is narrow, but they add a lot of weight to the language.  Type Parameters by design are really specific and hard to missuse, there is no aim to provide any form of meta programming in Go beyoud parametric polymorphism for now. Which in return should not add a lot of weight to the language.\nComplexity One of the great aspects of Go is its simplicity. Clearly this design makes the language more complex. We believe that the increased complexity is small for people reading well written generic code, rather than writing it. Naturally people must learn the new syntax for declaring type parameters. This new syntax, and the new support for type sets in interfaces, are the only new syntactic constructs in this design. The code within a generic function reads like ordinary Go code, as can be seen in the examples below. It is an easy shift to go from []int to []T. reference\n Generics are impossible to take back from the language.  This is a holly truth, but it’s again somewhat mitigated by small added complexity.\n Generics will make a part of community disappointed.  Unfortunately, this is not easily quantifiable data. Silent majority might think about generics differently, but I believe that at the very least the voice of active members of Go community is captured in this design.\n Generics implementation matters a lot, where generics via “boxing” doesn’t bring a lot of value in go.  Implementation We believe that this design permits different implementation choices. Code may be compiled separately for each set of type arguments, or it may be compiled as though each type argument is handled similarly to an interface type with method calls, or there may be some combination of the two. In other words, this design permits people to stop choosing slow programmers, and permits the implementation to decide between slow compilers (compile each set of type arguments separately) or slow execution times (use method calls for each operation on a value of a type argument). reference\nIn conclusion after design updates and my rethinking of type parameters, I tilted towards them. I will quote: “In general, we have tried to avoid surprises in the design. Only time will tell whether we succeed.”.\n",
+  "articleBody": "As the proposal of adding generics in go has finally came to its endspiel and has been accepted. I want to add my two cents on this event and explain why I think that generics is a bad idea how to introduce a meta programming to go.\nOrigins The history of generics in go is truly amazing. The ultimate answer to the question of having generics in go has evolved together with the language.\nOriginally, go official FAQ answered it in the following way.\nWhy does Go not have generic types? Generics may well be added at some point. We don't feel an urgency for them, although we understand some programmers do. Generics are convenient but they come at a cost in complexity in the type system and run-time. We haven't yet found a design that gives value proportionate to the complexity, although we continue to think about it. Meanwhile, Go's built-in maps and slices, plus the ability to use the empty interface to construct containers (with explicit unboxing) mean in many cases it is possible to write code that does what generics would enable, if less smoothly. This remains an open issue. But the answer has recently been updated and now FAQ contains.\nA language proposal implementing a form of generic types has been accepted for inclusion in the language. If all goes well it will be available in the Go 1.18 release. Go was intended as a language for writing server programs that would be easy to maintain over time. (See this article for more background.) The design concentrated on things like scalability, readability, and concurrency. Polymorphic programming did not seem essential to the language's goals at the time, and so was left out for simplicity. The language is more mature now, and there is scope to consider some form of generic programming. However, there remain some caveats. Generics are convenient but they come at a cost in complexity in the type system and run-time. We haven't yet found a design that gives value proportionate to the complexity, although we continue to think about it. Meanwhile, Go's built-in maps and slices, plus the ability to use the empty interface to construct containers (with explicit unboxing) mean in many cases it is possible to write code that does what generics would enable, if less smoothly. The topic remains open. For a look at several previous unsuccessful attempts to design a good generics solution for Go, see this proposal. Analyzing the community Let’s take a deeper look on how we got there. It all started since day 0 of go public appearance in 2010 with, in my opinion, the smart choice to not include generics in the initial language release. Soon enough, go conquered some popularity and developed community around. Along with this came endless complaints about lack of generics in go and related comparisons with Java and other languages alike. I believe, this is nicely explained by constant migration of new developers from other languages and their desire to make go look like mainstream language X.\nTo be 100% sure, though, let’s also analyze what people wanted and what they asked for exactly. Go is awesome; it has yearly official survey ritual to gather community opinion on various vital questions. Sad part though, there was not public go survey until year of 2016. Though, probably, it’s not that hard to find hundreds of articles with outcry complaining about lack of generics in go, daiting all the way back to the go release date. Still, we will use just public survey results as the source of the analyze. Once again, the data is a bit “fresh” and doesn’t fully represent the full historical perspective of generics bargaining, however, it verifies the fact that generics desire didn’t vanish within passing years.\n2016 generics are the first on What changes would improve Go most? 2017 generics are the second?! (no, the first) on What changes would improve Go most? 2018 surprisingly, generics are the third on What is the biggest challenge you personally face using Go today? (generics are only the third, probably, due to the question rephrasing) 2019 generics are the first (beating the second “better error handling” ~ 4/1) on Which critical features do you need which are not available in Go? 2020 generics are the first (this time difference with “better error handling” not that drastic) on Which critical features do you need which are not available in Go? One extra insightful source that is worth some attention - various official proposals around generics programming in go.\nGo should have generics, by Ian Lance Taylor January 2011 - April 2016 Type functions, June 2010 Generalized types, March 2011 Generalized types, October 2013 Type parameters, December 2013 Compile-time Functions and First Class Types, September 2016 Generics — Problem Overview, by Russ Cox August 2018 This list of proposals reminded me of another story of highly requested feature - dependency management. Just briefly scratching the surface and reading the last proposal stunned me with how similar it’s to the sad story of go dep. The story goes like this: in the response of community call to have a package management in go “a single man” went over the heads of the community and created gomod. Don’t get me wrong, gomod as a dependency management system turned out to be great, but even the man himself (famous go tech lead) called it nothing else but community mishandling.\nIn my eyes, generics story developed akin (maybe I’m overstretching here but I see at least some analogies between those two stories). The core go team had some internal particular, may be somewhat changing, vision of meta programming in go for years. And when time came, well, they went to implement it - veni, vidi, vici. It’s worth a little that the big chunk of community was successfully adopting the code generation that de facto was considered as the main meta programming approach prior to generics. In result of this internal vision we got contract generics draft, which left community mostly disappointed. However, unlike situations with dependency management, this time go team acted smarter. Instead of forcing community, they hired a known and respected 3-rd party to fix the generic design, see Featherweight Go by Phil Wadler. This moved a part of responsibility for go generics design out of the core go team. In my eyes, this kind of move defused the situation around generics, and made the community mostly happy with generics design in go. Still, in my eyes, It didn’t resolve core issues with generics in go.\nThe problems with generics in go Now, as we briefly walked through the most significant go generics milestones as I see and understand them. Let me highlight the most important points - why I think that generics is a bad idea how to introduce a meta programming to go.\n1. Generics make existing go type system inconsistent. Go has “limited generics” inside already, even FAQ says so “meanwhile, Go’s built-in maps and slices”. Introducing new form of generics that is orthogonal to those types will make existing built-in maps, slices, channels to not fit. Soon enough “better performing” generic vectors, maps, queues, etc. libraries will spring up like mushrooms. Which inevitably leads to flaking std library (welcome to C++), where you can find tens of different popular string type implementations.\n2. Generics use case is narrow, but they add a lot of weight to the language. Well, we know why generics are useful. My question here is: does generics usefulness overweights the cost for go or not? The thing, as I see it from my experience, go doesn’t really require generic most of the time. Again, referring to the latest survey 2020.\n90th percentile of all applications written in go, accordingly to the survey, is either server side API/RPC code or data processing pipelines or some tooling around them. For all of these domains, I personally, find polymorphic programming in general and generics in particular rarely useful. Going forward, most of the go projects are designed to be small and use service based approach. Sure, those smaller projects could benefit from generics too and they already do, by using built-in maps, slices and channels. What they don’t need almost 100% of the time - user defined generics, as it brings unnecessary complexity and bloats their small and simple code. But what about those bigger projects written in go, you might ask. I think, the answer is - golang shouldn’t even try to match those “big projects” needs and period. Because, in my opinion, it’s impossible to match n radically different requirements for n projects which size is comparable to go project itself.\n3. Generics are impossible to take back from the language. Generics is a huge change, maybe the biggest change that will be ever introduced to go (from cognitive perspective at the very least). It worth to take a step back and say that go doesn’t really follow semver spec closely for versioning their releases. The second part of go release version represents major version instead of semver mandated backwards minor version. So an idea of releasing generics beta under 1.18+ is fine, technically. But I personally will argue that generics has to be in go2.x if in any version at all. Mainly because of two related reasons:\ngenerics impact, effectively generics will create new sub language inside go (as it already had happened with all languages that went this very path before) and will have various implications on std library, existing code bases, new libraries development, etc. mudding existing go1.x with a feature that never can be removed and which splits the language on before generics and after generics. With that said, I think adding generics as-is or redesigning them to accomplish more into go2.x and not into go1.x might be a good middle ground. At the very least, it will buy some more time to think and sleep on it, which is a really goish way of doing things.\n4. Generics will make a part of community disappointed. After years and years of go community defeneding absence of generics and learning how to live with tradeoffs of language design simplicity to language features. We, suddenly, got 180 degree turn in 1 year time window (I bet, nobody treated generics proposals as something feasible before that). Changing people mentality and beliefs is not a simple process, and I’d imagine a lot of people got frustrated because of this turn. Subjectively, despite of survey results, I think, that the true majority of people working with go on a daily basis didn’t want generics.\n5. Generics implementation matters a lot, where generics via “boxing” doesn’t bring a lot of value in go. There is a brilliant article that describes models of generics and metaprogramming and their implementation in various languages in depth. I don’t want to dive too deep into comparison of two major classes of solutions to generics: “boxing” and “monomorphization” here in this article. I just say that if go team will decide to use “boxing” for the generics implementation, it will be a terrible misttake. In result, technically, just adding a syntax sugar on top of beloved interface{} type, thus trading language complexity for a syntax sugar.\nAlternatives Summarizing all said above, I think that go generics is a bad idea, at least for go1.x, in any imaginable form. There are some alternative options that could facilitate the need for meta programming in go2.x that I feel might be more natural for go, from the least to the most invasive:\nkeep the language it as-is, go was doing great in keeping generics status quo for years, why should it ever change if the absolute majority of use cases have no profit from them; add a few more generic built-in types (and functions) similarly to existing maps, slices, channels type inside the language runtime, I’d imagine couple basic popular data structure types like: list, set and ordered map will make vast majority of the people, asking for generics in go, satisfied; embrace and improve code generation and macrosing tooling as community driven solutions; accept generics in go2.x but also make existing type system maps, slices, channels work well with it (will most likely require to break existing type system completely), also, perhaps, it will demand to add operators overloading as well (to entitle user defined generics to be similar to built-in types), I’d expect final product to have a C++ style; dive much deeper into meta programming and prefer far superior compile time execution instead, e.g. zig does this, in fact you can even find official proposal in the past Compile-time Functions and First Class Types that, sadly, didn’t get a lot of attention; In conclusion, I shared my personal thoughts on go generics journey and why I’m dissatisfied with the current state of the generics in go. I just tried to express my thoughts and hopefully didn’t hurt anyone’s feelings, and If I did, please take my apology in advance. All and all, adding a meta programming support in a quite popular language with a long history of battling generics - is not an easy task. Generics were and still are the long requested feature by community, and their addition to the language might be good in the very end, but currently I have mixed feelings about them. My only hope is that some weak points of current generics desing will not make the way to the final public go release. Thank you for reading and as always stay tuned for more reading!\nUpdate April 27, 2021 This post sparked quite intense discussions on reddit.\nAs pointed out in comments, logically, go actually does follow semver. And I originally misread somewhat confusing release page. It's not a \"major\" version in the Semver sense of the word, they are just referring to the Go maintenance policy. Which makes the idea of releasing generics in go1.x idea even worse, in my opinion.\nMore importantly, there were a lot of people defending different sides of the generics camp in their own way. Which clearly shows that at least some of my points (“generics will make a part of community disappointed”) were valid. Nevertheless, I didn’t mean to start another round of holywar on this subject, neither to force people to change their position. My only intention is and ever was to share my perspective and discuss this thrilling topic with others.\nMay 02, 2021 As also pointed, “unsound” has a very particular meaning in type theory. Therefore “Generics make existing go type system inconsistent” is more accurate thing to say. Also a lot of commenters were frustrated by the phrase “in result, technically, just adding a syntax sugar on top of beloved interface{} type, thus trading language complexity for a syntax sugar”. I admit my mistake here, unconsciously, I didn’t list obvious benefit that any generics implementation will bring - improved type safety.\nJan 19, 2022 As generics (Type Parameters) are about to hit next Go release, I want to reflect a bit on this article and on generics journey evolution. Since the last update to this article, the Type Parameters design polished all rough spots, and landed on the final minimalistic type sets of constraints design. Less is more, as they say. The Go team and community did a great job trying to contain the ambiguous scope of generics. And deliberately push some parts of the design like parameterized methods to the future.\nAnswering my own questions from the past now:\nGenerics make existing go type system inconsistent. Generics will definetely change the way we interact with existing Go type system for the better or worse. But with first party support and latest drive to pivot common types slice map around type parameters - Go type system shouldn’t be inconsistent.\nGenerics use case is narrow, but they add a lot of weight to the language. Type Parameters by design are really specific and hard to missuse, there is no aim to provide any form of meta programming in Go beyoud parametric polymorphism for now. Which in return should not add a lot of weight to the language.\nComplexity One of the great aspects of Go is its simplicity. Clearly this design makes the language more complex. We believe that the increased complexity is small for people reading well written generic code, rather than writing it. Naturally people must learn the new syntax for declaring type parameters. This new syntax, and the new support for type sets in interfaces, are the only new syntactic constructs in this design. The code within a generic function reads like ordinary Go code, as can be seen in the examples below. It is an easy shift to go from []int to []T. reference\nGenerics are impossible to take back from the language. This is a holly truth, but it’s again somewhat mitigated by small added complexity.\nGenerics will make a part of community disappointed. Unfortunately, this is not easily quantifiable data. Silent majority might think about generics differently, but I believe that at the very least the voice of active members of Go community is captured in this design.\nGenerics implementation matters a lot, where generics via “boxing” doesn’t bring a lot of value in go. Implementation We believe that this design permits different implementation choices. Code may be compiled separately for each set of type arguments, or it may be compiled as though each type argument is handled similarly to an interface type with method calls, or there may be some combination of the two. In other words, this design permits people to stop choosing slow programmers, and permits the implementation to decide between slow compilers (compile each set of type arguments separately) or slow execution times (use method calls for each operation on a value of a type argument). reference\nIn conclusion after design updates and my rethinking of type parameters, I tilted towards them. I will quote: “In general, we have tried to avoid surprises in the design. Only time will tell whether we succeed.”.\n",
   "wordCount" : "3008",
   "inLanguage": "en",
   "datePublished": "2021-04-25T00:00:00Z",
@@ -102,56 +139,19 @@ Origins The history of generics in go is truly amazing. The ultimate answer to t
     }
 
 </script>
-<noscript>
-    <style type="text/css">
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: #1d1e20;
-                --entry: #2e2e33;
-                --primary: rgba(255, 255, 255, 0.84);
-                --secondary: rgba(255, 255, 255, 0.56);
-                --tertiary: rgba(255, 255, 255, 0.16);
-                --content: rgba(255, 255, 255, 0.74);
-                --hljs-bg: #2e2e33;
-                --code-bg: #37383e;
-                --border: #333;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
 
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://1pkg.github.io" accesskey="h" title="~ (Alt + H)">~</a>
-            <span class="logo-switches">
+            <a href="https://1pkg.github.io/" accesskey="h" title="~ (Alt + H)">~</a>
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -165,7 +165,7 @@ Origins The history of generics in go is truly amazing. The ultimate answer to t
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
         </ul>
@@ -176,10 +176,11 @@ Origins The history of generics in go is truly amazing. The ultimate answer to t
 <article class="post-single">
   <header class="post-header">
     
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       Golang dead end generics journey
     </h1>
-    <div class="post-meta">April 25, 2021&nbsp;·&nbsp;Kostiantyn Masliuk
+    <div class="post-meta"><span title='2021-04-25 00:00:00 +0000 UTC'>April 25, 2021</span>&nbsp;·&nbsp;Kostiantyn Masliuk
+
 </div>
   </header> 
   <div class="post-content"><p>As <a href="https://github.com/golang/go/issues/43651">the proposal</a> of adding generics in go has finally came to its endspiel and has been accepted. I want to add my two cents on this event and explain why I think that generics is a bad idea how to introduce a meta programming to go.</p>
@@ -326,31 +327,36 @@ or slow execution times (use method calls for each operation on a value of a typ
 
 
   </div>
+
   <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
   </footer>
 </article>
     </main>
-    <footer class="footer">
-    <span>&copy; 2022 <a href="https://1pkg.github.io">1pkg dev blog</a></span>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="https://1pkg.github.io/">1pkg dev blog</a></span> · 
+
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
-    <button class="top-link" id="top-link" type="button" accesskey="g">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-            <path d="M12 6H0l6-6z" />
-        </svg>
-    </button>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
 </a>
 
 <script>
     let menu = document.getElementById('menu')
-    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-    menu.onscroll = function () {
-        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
